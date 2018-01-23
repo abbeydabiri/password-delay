@@ -12,13 +12,13 @@ var page = { FormOne:"", FormTwo:"dn", FormThree:"dn", Form: {Fullname:"",
 		if (page.Form.Fullname.length == 0) { appAlert([{ message: "Fullname is required" }]); return }
 		if (page.Form.Fullname.length < 7) { appAlert([{ message: "Fullname is too short" }]); return }
 		if (page.Form.Username.length == 0) { appAlert([{ message: "Username is required" }]); return }
-		if (page.Form.Username.length < 7) { appAlert([{ message: "Username is too short" }]); return }
+		if (page.Form.Username.length < 3) { appAlert([{ message: "Username is too short" }]); return }
 
 		page.FormOne="dn", page.FormTwo="", page.FormThree="dn"
 	},
 	gotoThree: function() {
-		if (page.Form.Password.length < 7) { appAlert([{ message: "Password must be at least 8 chars" }]); return }
-		if (page.Form.ConfirmPassword.length < 7) { appAlert([{ message: "Confirm Password must be at least 8 chars" }]); return }
+		if (page.Form.Password.length < 3) { appAlert([{ message: "Password must be at least 8 chars" }]); return }
+		if (page.Form.ConfirmPassword.length < 3) { appAlert([{ message: "Confirm Password must be at least 8 chars" }]); return }
 		if (page.Form.Password !== page.Form.ConfirmPassword) { appAlert([{ message: "Password does not match" }]); return }
 
 		page.FormOne="dn", page.FormTwo="dn", page.FormThree=""

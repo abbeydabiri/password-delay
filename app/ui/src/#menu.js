@@ -42,13 +42,14 @@ export var menu = {
 		appMenuDiv.classList.toggle('dn');
 		appMenuDiv.classList.toggle('animated');
 		appMenuDiv.classList.toggle('bounceInDown');
-		document.getElementById("html").classList.toggle('overflow-hidden');
 
 		document.getElementById("nav").classList.toggle('dn');
+		document.getElementById("menuBlur").classList.toggle('vh-100');
+		document.getElementById("html").classList.toggle('overflow-hidden');
 	},
 	view: function(vnode) {
 		return (
-			<section class="w-100 z-max fixed  ">
+			<section id="menuBlur" class="w-100 z-max fixed  ">
 				<div id="menuToggle"  class=" w-100 w-30-m w-20-l mw7 center fr dn menuCloudBG pa0" style="">
 					<ul class="list pt0 pl0 w-100 ma0 overflow-scroll" style="">
 						{m(menu.menuItem,{href:"/",icon:"user"},"ABOUT US")}
