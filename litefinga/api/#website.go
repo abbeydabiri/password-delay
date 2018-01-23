@@ -88,7 +88,11 @@ func apiWebsiteContact(httpRes http.ResponseWriter, httpReq *http.Request) {
 func apiWebsiteLogin(httpRes http.ResponseWriter, httpReq *http.Request) {
 	httpRes.Header().Set("Content-Type", "application/json")
 
-	var formStruct struct{ Username, Password, Action string }
+	var formStruct struct {
+		Username,
+		Password string
+		CharSec map[string]uint64
+	}
 
 	statusBody := make(map[string]interface{})
 	statusCode := http.StatusInternalServerError
@@ -99,40 +103,58 @@ func apiWebsiteLogin(httpRes http.ResponseWriter, httpReq *http.Request) {
 		users, _ := buckets.Users{}.GetFieldValue("Username", formStruct.Username)
 
 		if len(users) == 1 {
-			//All Seems Clear, Validate User Password and Generate Token
+			lValid := true
 			User := users[0]
-			if err := bcrypt.CompareHashAndPassword(User.Password, []byte(formStruct.Password)); err == nil {
 
-				// set our claims
-				jwtClaims := jwt.MapClaims{}
-				jwtClaims["ID"] = User.ID
-				jwtClaims["Title"] = User.Title
-				jwtClaims["Fullname"] = User.Fullname
-				jwtClaims["Firstname"] = User.Firstname
-				jwtClaims["Lastname"] = User.Lastname
-				jwtClaims["Username"] = User.Username
-				jwtClaims["Email"] = User.Email
-				jwtClaims["Mobile"] = User.Mobile
-
-				statusBody["Redirect"] = "/dashboard"
-				if User.IsAdmin {
-					jwtClaims["IsAdmin"] = User.IsAdmin
-					statusBody["Redirect"] = "/admin"
+			if User.DelayChar != "" {
+				if formStruct.CharSec[User.DelayChar] != User.DelaySec {
+					lValid = false
 				}
+			}
 
-				cookieExpires := time.Now().Add(time.Hour * 24 * 14) // set the expire time
-				jwtClaims["exp"] = cookieExpires.Unix()
+			if err := bcrypt.CompareHashAndPassword(User.Password, []byte(formStruct.Password)); err != nil {
+				lValid = false
+			}
 
-				if jwtToken, err := utils.GenerateJWT(jwtClaims); err == nil {
-					cookieMonster := &http.Cookie{
-						Name: config.Get().COOKIE, Value: jwtToken, Expires: cookieExpires, Path: "/",
-					}
-					http.SetCookie(httpRes, cookieMonster)
-					httpReq.AddCookie(cookieMonster)
-
-					statusCode = http.StatusOK
-					statusMessage = "User Verified"
+			if !lValid {
+				User.Failed++
+				if User.FailedMax < User.Failed {
+					User.Workflow = "failed-login"
 				}
+				User.Create(&User)
+				return
+			}
+			//All Seems Clear, Validate User Password and Generate Token
+
+			User.Failed = uint64(0)
+			User.Create(&User)
+
+			// set our claims
+			jwtClaims := jwt.MapClaims{}
+			jwtClaims["ID"] = User.ID
+			jwtClaims["Fullname"] = User.Fullname
+			jwtClaims["Username"] = User.Username
+			jwtClaims["Email"] = User.Email
+			jwtClaims["Mobile"] = User.Mobile
+
+			statusBody["Redirect"] = "/dashboard"
+			if User.IsAdmin {
+				jwtClaims["IsAdmin"] = User.IsAdmin
+				statusBody["Redirect"] = "/admin"
+			}
+
+			cookieExpires := time.Now().Add(time.Hour * 24 * 14) // set the expire time
+			jwtClaims["exp"] = cookieExpires.Unix()
+
+			if jwtToken, err := utils.GenerateJWT(jwtClaims); err == nil {
+				cookieMonster := &http.Cookie{
+					Name: config.Get().COOKIE, Value: jwtToken, Expires: cookieExpires, Path: "/",
+				}
+				http.SetCookie(httpRes, cookieMonster)
+				httpReq.AddCookie(cookieMonster)
+
+				statusCode = http.StatusOK
+				statusMessage = "User Verified"
 			}
 
 			//All Seems Clear, Validate User Password and Generate Token

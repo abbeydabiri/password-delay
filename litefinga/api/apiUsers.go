@@ -20,7 +20,7 @@ import (
 )
 
 type apiUserStruct struct {
-	ID, DelaySec uint64
+	ID, DelaySec, FailedMax, Failed uint64
 
 	IsAdmin bool
 

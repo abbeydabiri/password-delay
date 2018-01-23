@@ -16,7 +16,8 @@ import (
 //Users ...
 type Users struct {
 	ID, IDSync, Createdby,
-	Updatedby, DelaySec uint64
+	Updatedby, DelaySec,
+	FailedMax, Failed uint64
 
 	Password []byte
 	IsAdmin  bool
