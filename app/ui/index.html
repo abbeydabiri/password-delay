@@ -1,0 +1,128 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" id="html" lang="en"> <!--<![endif]-->
+	<head>
+		<meta charset="UTF-8">
+		<link rel="manifest" href="../../assets/manifest.json">
+		<meta name="theme-color" content="#ffffff">
+
+		<title id="title"> {{.SeoTitle}} </title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5">
+		<link async rel="stylesheet" href="../../../assets/css/tachyons+loadingio.css?{{.Version}}">
+
+		{{.SeoContent}}
+
+		<link rel="shortcut icon" id="favicon" href="../../../assets/img/logo.png?{{.Version}}">
+		<script src="../../../assets/bin/custom.js?{{.Version}}" type="text/javascript" charset="utf-8"></script>
+		<style>
+			tr:after {
+				content: ' ';
+				display: block;
+				visibility: hidden;
+				clear: both;
+			}
+
+			input { box-shadow: inset 0px 0px 0px 0px red; }
+
+			.menuCloudBG, .alertPrimary {
+				background: #ECE9E6;  /* fallback for old browsers */
+				background: -webkit-linear-gradient(to right, #FFFFFF, #ECE9E6);  /* Chrome 10-25, Safari 5.1-6 */
+				background: linear-gradient(to right, #FFFFFF, #ECE9E6); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+			}
+
+			.btnPrimary, .loginBG {
+				background: #CB356B;  /* fallback for old browsers */
+				background: -webkit-linear-gradient(to right, #BD3F32, #CB356B);  /* Chrome 10-25, Safari 5.1-6 */
+				background: linear-gradient(to right, #BD3F32, #CB356B); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+			}
+
+			.parallaxBG {
+				/* Create the parallax scrolling effect */
+				background-attachment: fixed;
+				background-position: center;
+				background-repeat: no-repeat;
+				background-size: cover;
+			}
+
+			.f7 {font-size:9px}
+
+
+
+			@keyframes slidy {
+				0% { left: 0%; }
+				20% { left: 0%; }
+				30% { left: -100%; }
+				50% { left: -100%; }
+				60% { left: -200%; }
+				80% { left: -200%; }
+				90% { left: -300%; }
+				100% { left: -300%; }
+			}
+
+			div#slider figure {
+				position: relative;
+				width: 400%;
+				margin: 0;
+				left: 0;
+				font-size: 0;
+				animation: 12s slidy infinite;
+			}
+
+			.sliderBG {
+				background-repeat: no-repeat;
+				background-position: center;
+				background-size: cover;
+				height: 350px;
+				width: 100vw;
+			}
+
+			.one {background-image:url('../../assets/img/one.jpg')}
+			.two {background-image:url('../../assets/img/two.jpg')}
+			.three {background-image:url('../../assets/img/three.jpg')}
+		</style>
+	</head>
+
+
+	<body id="body" class="avenir w-100">
+
+		<!--[if lt IE 8]>
+			<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+		<![endif]-->
+
+		<span id="top"></span>
+
+		<section id="appMenu" class="top-0 left-0"></section>
+
+		<section id="appLoading" style="" class="min-vh-100 w-100 absolute dn z-max ">
+			<article class="dt center">
+				<div class="dtc v-mid tc f6 fw3 vh-75 near-white">
+					<div class="spinner center"></div>
+				</div>
+			</article>
+		</section>
+
+		<section id="appContent" style="" class="">
+			<script>startLoader("Index")</script>
+
+			<section id="Index" style="" class="min-vh-100 w-100 absolute z-max ">
+				<article class="dt center">
+					<div class="dtc v-mid tc f6 fw3 vh-75 near-white">
+						<div class="spinner center"></div>
+					</div>
+				</article>
+			</section>
+		</section>
+  </body>
+
+	<script async src="../../../assets/bin/{{.Bundle}}.bundle.js?ss{{.Version}}" type="text/javascript" charset="utf-8" ></script>
+
+	<script>
+		if ('serviceWorker' in navigator) {
+	    navigator.serviceWorker.register('./service-worker.js').then(function() { console.log('Service Worker Registered'); });
+	  }
+	</script>
+</html>

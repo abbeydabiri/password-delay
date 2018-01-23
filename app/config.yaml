@@ -1,0 +1,17 @@
+timezone: Africa/Lagos
+version: 1513339116
+cookie: pdiaapp
+db: bolt.db
+os:
+path: ./
+address: :4444
+encryption_keys:
+  public: /public.pem
+  private: /private.pem
+
+mailer:
+  port: 587
+  server: smtp.mailgun.org
+  username: postmaster@pdia.ml
+  password: sdsdsd
+  fromname: noreply@pdia.ml
