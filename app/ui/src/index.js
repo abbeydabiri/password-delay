@@ -1,18 +1,5 @@
 import m from 'mithril';
 import menu from './#menu.js';
-import {logVisitor} from './#utils.js';
-import {validateSubmit} from './#validateSubmit.js';
-
-var action = {
-	Submit: function() {
-		var actionFields = [
-			{validationType : '', fieldID : 'username'},
-			{validationType : '', fieldID : 'password'},
-		]
-		validateSubmit( "/api/login", actionFields);
-	},
-};
-
 
 var page = {
 	oninit:function(vnode){

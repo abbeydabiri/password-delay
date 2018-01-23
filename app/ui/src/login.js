@@ -1,7 +1,5 @@
 import m from 'mithril';
 import {menu} from './#menu.js';
-import {logVisitor} from './#utils.js';
-import {validateSubmit} from './#validateSubmit.js';
 
 var action = {
 	Submit: function() {

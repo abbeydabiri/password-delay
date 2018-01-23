@@ -1,12 +1,6 @@
 import m from 'mithril';
 import {menu} from './#menu.js';
 import {appAlert} from './#utils.js';
-import {logVisitor} from './#utils.js';
-import {validateSubmit} from './#validateSubmit.js';
-
-var action = {
-
-};
 
 
 var page = { FormOne:"", FormTwo:"dn", FormThree:"dn", Form: {Fullname:"",

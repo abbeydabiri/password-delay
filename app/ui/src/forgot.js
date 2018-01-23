@@ -1,18 +1,9 @@
 import m from 'mithril';
 import {menu} from './#menu.js';
-import {validateSubmit} from './#validateSubmit.js';
-
-var action = {
-	Submit: function() {
-		var actionFields = [
-			{validationType : 'email', fieldID : 'email'},
-		]
-		validateSubmit( "/api/forgot", actionFields);
-	},
-};
 
 
 export var page = {
+	submit:function(){},
 	oninit:function(vnode){
 		m.render(document.getElementById('appMenu'), m(menu,{color:"white"}))
 	},
@@ -42,13 +33,13 @@ export var page = {
 							<small class="fw6">Email address</small>
 							{m("div", {class:"br1 ba b--silver"} ,m("input",{ placeholder: "you@domain", type:"text", class: "w-100  bw0 br1 pa2 f6", id:"username",
 								oninput: m.withAttr("value",function(value) {page.Username = value}),
-								onkeyup: function(event) {if(event.key=="Enter"){action.Submit()}}
+								onkeyup: function(event) {if(event.key=="Enter"){page.submit()}}
 							 }))}
 
 							 <br/><br/>
 
 							<div class="pv3 tc">
-								<span class="btnPrimary near-white shadow-4 pointer fl w-100 dim pv3 br1" onclick={action.Submit}>Send me reset instructions </span>
+								<span class="btnPrimary near-white shadow-4 pointer fl w-100 dim pv3 br1" onclick={page.submit}>Send me reset instructions </span>
 							</div>
 						</div>
 					</div>
