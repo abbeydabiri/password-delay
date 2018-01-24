@@ -247,10 +247,6 @@ func apiWebsiteSignup(httpRes http.ResponseWriter, httpReq *http.Request) {
 				statusMessage += "Username" + api.IsRequired
 			}
 
-			if formStruct.DelayChar == "" {
-				statusMessage += "Delay Character" + api.IsRequired
-			}
-
 			if strings.HasSuffix(statusMessage, "\n") {
 				statusMessage = statusMessage[:len(statusMessage)-2]
 			}
@@ -266,14 +262,17 @@ func apiWebsiteSignup(httpRes http.ResponseWriter, httpReq *http.Request) {
 				bucketUser.Username = formStruct.Username
 				bucketUser.DelayChar = formStruct.DelayChar
 				bucketUser.DelaySec = formStruct.DelaySec
+				bucketUser.MaxFailed = 2
 
 				hash, _ := bcrypt.GenerateFromPassword([]byte(formStruct.Password), bcrypt.DefaultCost)
 				bucketUser.Password = hash
 				bucketUser.Create(&bucketUser)
 
+				// apiWebsiteLogin(httpRes, httpReq)
+				http.Redirect(httpRes, httpReq, "/api/login", http.StatusTemporaryRedirect)
+
 			}
 			//All Seems Clear, Create New User Now Now
-
 		}
 	}
 

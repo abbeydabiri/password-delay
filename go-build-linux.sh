@@ -1,3 +1,3 @@
 #!/bin/bash
-#upx appPDIA_linux.elf &&
-GOOS=linux GOARCH=amd64 go build -o appPDIA_linux.elf -ldflags "-s -w" && mv appPDIA_linux.elf app/.
+#upx appPasswordDelay_linux.elf &&
+GOOS=linux GOARCH=amd64 go build -o appPasswordDelay_linux.elf -ldflags "-s -w" && mv appPasswordDelay_linux.elf app/.

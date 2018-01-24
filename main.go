@@ -1,4 +1,4 @@
-// package pdia
+// package PasswordDelay
 package main
 
 import (

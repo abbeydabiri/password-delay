@@ -2,9 +2,9 @@
 app/logger
 app/.DS_Store
 node_modules/
-app/appPDIA_linux.elf
-app/appPDIA_mac.app
-app/appPDIA_win.exe
+app/appPasswordDelay_linux.elf
+app/appPasswordDelay_mac.app
+app/appPasswordDelay_win.exe
 
 app/ui/assets/bin/admin.bundle.js
 app/ui/assets/bin/website.bundle.js
@@ -30,5 +30,5 @@ app/ui/.DS_Store
 jsonPdf.json
 .DS_Store
 campaigns/
-appPDIA_mac.app
+appPasswordDelay_mac.app
 app/ui/src/admin/

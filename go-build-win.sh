@@ -1,2 +1,2 @@
 #!/bin/bash
-GOOS=windows GOARCH=386 go build  -o appPDIA_win.exe -ldflags "-s -w" && upx appPDIA_win.exe && mv appPDIA_win.exe app/.
+GOOS=windows GOARCH=386 go build  -o appPasswordDelay_win.exe -ldflags "-s -w" && upx appPasswordDelay_win.exe && mv appPasswordDelay_win.exe app/.

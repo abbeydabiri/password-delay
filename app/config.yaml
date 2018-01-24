@@ -1,6 +1,6 @@
 timezone: Africa/Lagos
 version: 1513339116
-cookie: pdiaapp
+cookie: PasswordDelayapp
 db: bolt.db
 os:
 path: ./
@@ -12,6 +12,6 @@ encryption_keys:
 mailer:
   port: 587
   server: smtp.mailgun.org
-  username: postmaster@pdia.ml
+  username: postmaster@passworddelay.ml
   password: sdsdsd
-  fromname: noreply@pdia.ml
+  fromname: noreply@passworddelay.ml

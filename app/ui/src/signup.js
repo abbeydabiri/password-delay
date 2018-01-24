@@ -3,33 +3,43 @@ import {menu} from './#menu.js';
 import {appAlert} from './#utils.js';
 
 
-var page = { FormOne:"", FormTwo:"dn", FormThree:"dn", Form: {Fullname:"",
+var page = { FormOne:"", FormTwo:"dn", Form: {Fullname:"",
 	Username:"", Password:"", ConfirmPassword:"", DelaySec:0, DelayChar:""},
-	gotoOne: function() {
-		page.FormOne="", page.FormTwo="dn", page.FormThree="dn"
-	},
+	gotoOne: function() { page.FormOne="", page.FormTwo="dn"; },
 	gotoTwo: function() {
 		if (page.Form.Fullname.length == 0) { appAlert([{ message: "Fullname is required" }]); return }
 		if (page.Form.Fullname.length < 7) { appAlert([{ message: "Fullname is too short" }]); return }
 		if (page.Form.Username.length == 0) { appAlert([{ message: "Username is required" }]); return }
 		if (page.Form.Username.length < 3) { appAlert([{ message: "Username is too short" }]); return }
 
-		page.FormOne="dn", page.FormTwo="", page.FormThree="dn"
+		page.FormOne="dn", page.FormTwo="";
 	},
-	gotoThree: function() {
-		if (page.Form.Password.length < 3) { appAlert([{ message: "Password must be at least 8 chars" }]); return }
-		if (page.Form.ConfirmPassword.length < 3) { appAlert([{ message: "Confirm Password must be at least 8 chars" }]); return }
+	submit: function() {
+		if (page.Form.Password.length < 3) { appAlert([{ message: "Password must be at least 4 chars" }]); return }
+		if (page.Form.ConfirmPassword.length < 3) { appAlert([{ message: "Confirm Password must be at least 4 chars" }]); return }
 		if (page.Form.Password !== page.Form.ConfirmPassword) { appAlert([{ message: "Password does not match" }]); return }
 
-		page.FormOne="dn", page.FormTwo="dn", page.FormThree=""
+		startLoader();
+		m.request({ method: 'POST', url: "/api/signup", data: page.Form, }).then(function(response) {
+			
+			var lStoploader = true;
+			if (response.Body !== null) {
+				if (response.Body.Redirect !== null &&  response.Body.Redirect !== "") {
+					// window.location.href = response.Body.Redirect + "?" + new Date().getTime();
+					window.location.href = response.Body.Redirect
+					lStoploader = false;
+				}
+			}
+			appAlert([{ message: response.Message }]);
+			if(lStoploader) { stopLoader();}
+		}).catch(function(error) {
+			appAlert([{ message: error }]);
+			stopLoader();
+		});
+
 	},
 	oninit:function(vnode){
 		m.render(document.getElementById('appMenu'), m(menu,{color:"near-white"}))
-	},
-	submit: function() {
-		if (page.Form.DelayChar == "") { appAlert([{ message: "Delay Character is required" }]); return }
-
-		// validateSubmit( "/api/login", actionFields);
 	},
 	view:function(vnode){
 		return (
@@ -87,31 +97,11 @@ var page = { FormOne:"", FormTwo:"dn", FormThree:"dn", Form: {Fullname:"",
 
 										<div class="pv2 tc">
 											<span class="menuCloudBG dark-red shadow-4 pointer fl w-40 dim pv3 br1" onclick={page.gotoOne}>Back</span>
-											<span class="menuCloudBG dark-red shadow-4 pointer fr w-40 dim pv3 br1" onclick={page.gotoThree}>Next » </span>
+											<span class="menuCloudBG dark-red shadow-4 pointer fr w-40 dim pv3 br1" onclick={page.submit}>Submit » </span>
 										</div>
 										<div class="cf mv1"></div>
 									</span>
 
-									 <span class={"cf w-100 "+page.FormThree}>
-										{m("input",{ placeholder: "Enter Password", type:"password", class: "red w-100 ba b--light-gray menuCloudBG br1 pa3 f6",
-											oninput: m.withAttr("value",function(value) {page.Form.Password = value}),
-											onkeyup: function(event) {if(event.key=="Enter"){page.submit}}
-										})}
-
-										<div class="cf mv2"></div>
-
-										{m("input",{ placeholder: "Confirm Password", type:"password", class: "red w-100 ba b--light-gray menuCloudBG br1 pa3 f6",
-											oninput: m.withAttr("value",function(value) {page.Form.Password = value}),
-											onkeyup: function(event) {if(event.key=="Enter"){page.submit}}
-										})}
-
-										<div class="cf mv1"></div>
-
-										<div class="pv2 tc">
-											<span class="menuCloudBG dark-red shadow-4 pointer fl w-40 dim pv3 br1" onclick={page.gotoTwo}>Back </span>
-											<span class="menuCloudBG dark-red shadow-4 pointer fr w-40 dim pv3 br1" onclick={page.submit}>Submit » </span>
-										</div>
-									 </span>
 
 
 								</div>

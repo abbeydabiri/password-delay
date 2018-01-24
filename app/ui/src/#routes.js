@@ -13,6 +13,7 @@ m.route(document.getElementById('appContent'), "/", {
 	"/":{ view: function() { return m(indexPage)},},
 
 	"/login":{ view: function() { return m(loginPage)},},
+	"/logout":{ view: function() { return m(loginPage)},},
 
 	"/forgot":{ view: function() { return m(forgotPage)},},
 
