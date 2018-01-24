@@ -9,8 +9,8 @@ import (
 
 	"github.com/justinas/alice"
 
-	"litefinga/buckets"
-	"litefinga/utils"
+	"passworddelay/buckets"
+	"passworddelay/utils"
 )
 
 type apiProfileStruct struct {

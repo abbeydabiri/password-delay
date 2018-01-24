@@ -26,7 +26,22 @@ var page = { FormOne:"", FormTwo:"dn", Form: {Fullname:"",
 			if (response.Body !== null) {
 				if (response.Body.Redirect !== null &&  response.Body.Redirect !== "") {
 					window.location.href = response.Body.Redirect
+
 					lStoploader = false;
+					m.request({ method: 'POST', url: response.Body.Redirect, data: page.Form, }).then(function(responseSub) {
+						var lStoploaderSub = true;
+						if (responseSub.Body !== null) {
+							if (responseSub.Body.Redirect !== null &&  responseSub.Body.Redirect !== "") {
+								window.location.href = responseSub.Body.Redirect
+								lStoploaderSub = false;
+							}
+						}
+						appAlert([{ message: response.Message }]);
+						if(lStoploaderSub) { stopLoader();}
+					}).catch(function(error) {
+						appAlert([{ message: error }]);
+						stopLoader();
+					});
 				}
 			}
 			appAlert([{ message: response.Message }]);

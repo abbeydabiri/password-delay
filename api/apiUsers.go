@@ -14,9 +14,9 @@ import (
 	"github.com/justinas/alice"
 	"github.com/timshannon/bolthold"
 
-	"litefinga/buckets"
-	"litefinga/config"
-	"litefinga/utils"
+	"passworddelay/buckets"
+	"passworddelay/config"
+	"passworddelay/utils"
 )
 
 type apiUserStruct struct {
@@ -268,7 +268,6 @@ func apiUserGet(httpRes http.ResponseWriter, httpReq *http.Request) {
 					statusBody = apiUserStruct{
 						ID: usersList[0].ID,
 
-						Code:     usersList[0].Code,
 						Username: usersList[0].Username,
 						Workflow: usersList[0].Workflow,
 
@@ -347,11 +346,11 @@ func apiUserPost(httpRes http.ResponseWriter, httpReq *http.Request) {
 
 			if statusMessage == "" {
 				if bucketUser.Workflow == "" {
-					statusMessage += WorkflowRequired
+					statusMessage += "Workflow" + IsRequired
 				}
 
 				if bucketUser.Username == "" {
-					statusMessage += "Username is Required \n"
+					statusMessage += "Username" + IsRequired
 				}
 
 				if strings.HasSuffix(statusMessage, "\n") {

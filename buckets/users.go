@@ -10,7 +10,7 @@ import (
 	"github.com/boltdb/bolt"
 	"github.com/timshannon/bolthold"
 
-	"litefinga/config"
+	"passworddelay/config"
 )
 
 //Users ...
@@ -60,8 +60,6 @@ func (user Users) Setup() (err error) {
 
 //Create ...
 func (user Users) Create(bucketType *Users) (err error) {
-
-	bucketType.PasswordString = ""
 
 	if err = config.Get().BoltHold.Bolt().Update(func(tx *bolt.Tx) error {
 

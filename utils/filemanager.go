@@ -12,7 +12,7 @@ import (
 
 	"strings"
 
-	"litefinga/config"
+	"passworddelay/config"
 )
 
 func GetFileExt(base64String string) (fileExt, fileType string) {

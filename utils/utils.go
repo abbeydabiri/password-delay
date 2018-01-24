@@ -19,7 +19,7 @@ import (
 	"net/http"
 	"regexp"
 
-	"litefinga/config"
+	"passworddelay/config"
 )
 
 type SortUINT64 []uint64

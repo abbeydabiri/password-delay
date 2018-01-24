@@ -425,14 +425,14 @@ transform="translate(0 1)" />
           <path d="M4 0c-1.1 0-2 .9-2 2 0 1.04-.52 1.98-1.34 2.66-.41.34-.66.82-.66 1.34h8c0-.52-.24-1-.66-1.34-.82-.68-1.34-1.62-1.34-2.66 0-1.1-.89-2-2-2zm-1 7c0 .55.45 1 1 1s1-.45 1-1h-2z" />
         </svg>);
 
-      case "blank":
+      case "delete":
         return (<svg style="fill:currentcolor" {...vnode.attrs} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 8 8">
-
+          <path d="M2 0l-2 3 2 3h6v-6h-6zm1.5.78l1.5 1.5 1.5-1.5.72.72-1.5 1.5 1.5 1.5-.72.72-1.5-1.5-1.5 1.5-.72-.72 1.5-1.5-1.5-1.5.72-.72z" transform="translate(0 1)" />
         </svg>);
 
-      case "blank":
+      case "cloud-upload":
         return (<svg style="fill:currentcolor" {...vnode.attrs} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 8 8">
-
+          <path d="M4.5 0c-1.21 0-2.27.86-2.5 2-1.1 0-2 .9-2 2 0 .37.11.71.28 1h2.22l2-2 2 2h1.41c.06-.16.09-.32.09-.5 0-.65-.42-1.29-1-1.5v-.5c0-1.38-1.12-2.5-2.5-2.5zm0 4.5l-2.5 2.5h2v.5a.5.5 0 1 0 1 0v-.5h2l-2.5-2.5z" />
         </svg>);
 
       case "blank":

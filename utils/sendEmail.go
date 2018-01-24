@@ -9,7 +9,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"litefinga/config"
+	"passworddelay/config"
 )
 
 type Email struct {

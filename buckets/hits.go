@@ -8,7 +8,7 @@ import (
 	"github.com/boltdb/bolt"
 	"github.com/timshannon/bolthold"
 
-	"litefinga/config"
+	"passworddelay/config"
 )
 
 type Hits struct {

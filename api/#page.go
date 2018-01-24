@@ -17,9 +17,9 @@ import (
 	"github.com/boltdb/bolt"
 	"github.com/timshannon/bolthold"
 
-	"litefinga/buckets"
-	"litefinga/config"
-	"litefinga/utils"
+	"passworddelay/buckets"
+	"passworddelay/config"
+	"passworddelay/utils"
 
 	jwt "github.com/dgrijalva/jwt-go"
 )

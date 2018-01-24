@@ -5,7 +5,7 @@ import (
 
 	"github.com/boltdb/bolt"
 
-	"litefinga/config"
+	"passworddelay/config"
 )
 
 func Init() {

@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"time"
 
-	"litefinga/config"
+	"passworddelay/config"
 )
 
 func Logger(logPath string) {

@@ -54,7 +54,7 @@ export var menu = {
 						{m(menu.menuItem,{href:"/login",icon:"logout"},"LOG IN")}
 						<li class="tc" onclick={menu.toggle}>
 							<p class="ph2 pv3 mv0 near-white loginBG">
-								CLOSE
+								CLOSE	
 							</p>
 						</li>
 					</ul>

@@ -12,9 +12,9 @@ import (
 	"github.com/justinas/alice"
 	"github.com/timshannon/bolthold"
 
-	"litefinga/buckets"
-	"litefinga/config"
-	"litefinga/utils"
+	"passworddelay/buckets"
+	"passworddelay/config"
+	"passworddelay/utils"
 )
 
 type apiHitStruct struct {
@@ -226,7 +226,7 @@ func apiHitPost(httpRes http.ResponseWriter, httpReq *http.Request) {
 
 			if statusMessage == "" {
 				if bucketHit.Title == "" {
-					statusMessage += TitleRequired
+					statusMessage += "Title" + IsRequired
 				}
 
 				if strings.HasSuffix(statusMessage, "\n") {

@@ -15,10 +15,9 @@ import (
 	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/justinas/alice"
 
-	"litefinga/api"
-	"litefinga/buckets"
-	"litefinga/config"
-	"litefinga/utils"
+	"passworddelay/buckets"
+	"passworddelay/config"
+	"passworddelay/utils"
 )
 
 func apiHandlerWebsite(middlewares alice.Chain, router *Router) {
@@ -37,6 +36,7 @@ func apiWebsiteContact(httpRes http.ResponseWriter, httpReq *http.Request) {
 	}
 
 	statusMessage := ""
+	statusBody := make(map[string]interface{})
 	statusCode := http.StatusInternalServerError
 
 	err := json.NewDecoder(httpReq.Body).Decode(&formContact)
@@ -216,9 +216,13 @@ func apiWebsiteForgot(httpRes http.ResponseWriter, httpReq *http.Request) {
 }
 
 func apiWebsiteSignup(httpRes http.ResponseWriter, httpReq *http.Request) {
+
+	println("Osha Prara!!!")
+
 	httpRes.Header().Set("Content-Type", "application/json")
 
 	statusMessage := ""
+	statusBody := make(map[string]interface{})
 	statusCode := http.StatusInternalServerError
 
 	var formStruct struct {
@@ -239,11 +243,11 @@ func apiWebsiteSignup(httpRes http.ResponseWriter, httpReq *http.Request) {
 
 			//All Seems Clear, Create New User Now Now
 			if formStruct.Fullname == "" {
-				statusMessage += "Fullname" + api.IsRequired
+				statusMessage += "Fullname" + IsRequired
 			}
 
 			if formStruct.Username == "" {
-				statusMessage += "Username" + api.IsRequired
+				statusMessage += "Username" + IsRequired
 			}
 
 			if strings.HasSuffix(statusMessage, "\n") {
@@ -253,7 +257,8 @@ func apiWebsiteSignup(httpRes http.ResponseWriter, httpReq *http.Request) {
 			if statusMessage == "" {
 
 				statusCode = http.StatusOK
-				statusMessage = "Please login"
+				statusMessage = "Sign up successful, please login"
+				statusBody["Redirect"] = "/api/login"
 
 				bucketUser := buckets.Users{}
 				bucketUser.Workflow = "enabled"
@@ -265,9 +270,6 @@ func apiWebsiteSignup(httpRes http.ResponseWriter, httpReq *http.Request) {
 				bucketUser.Password = hash
 				bucketUser.Create(&bucketUser)
 
-				// apiWebsiteLogin(httpRes, httpReq)
-				http.Redirect(httpRes, httpReq, "/api/login", http.StatusTemporaryRedirect)
-
 			}
 			//All Seems Clear, Create New User Now Now
 		}
@@ -276,6 +278,7 @@ func apiWebsiteSignup(httpRes http.ResponseWriter, httpReq *http.Request) {
 	json.NewEncoder(httpRes).Encode(Message{
 		Code:    statusCode,
 		Message: statusMessage,
+		Body:    statusBody,
 	})
 	// //Send E-Mail
 }

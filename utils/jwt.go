@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"time"
 
-	"litefinga/config"
+	"passworddelay/config"
 
 	jwt "github.com/dgrijalva/jwt-go"
 )

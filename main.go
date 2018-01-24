@@ -8,9 +8,9 @@ import (
 	"os"
 	"time"
 
-	"litefinga/api"
-	"litefinga/config"
-	"litefinga/utils"
+	"passworddelay/api"
+	"passworddelay/config"
+	"passworddelay/utils"
 )
 
 func fileSystem() {
