@@ -20,11 +20,12 @@ import (
 )
 
 type apiUserStruct struct {
-	ID, DelaySec, FailedMax, Failed uint64
+	ID, DelaySec, DelayChar,
+	FailedMax, Failed uint64
 
 	IsAdmin bool
 
-	DelayChar, Username, Password,
+	Username, Password,
 	Workflow, Fullname, Email,
 	Mobile, Address, Image,
 	Description string

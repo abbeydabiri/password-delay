@@ -15,16 +15,15 @@ import (
 
 //Users ...
 type Users struct {
-	ID, IDSync, Createdby,
-	Updatedby, DelaySec,
-	FailedMax, Failed uint64
+	ID, IDSync, Createdby, Updatedby,
+	DelayChar, DelaySec, FailedMax, Failed uint64
 
 	Password []byte
 	IsAdmin  bool
 
 	Createdate, Updatedate time.Time
 
-	DelayChar, Username, Workflow, Fullname,
+	Username, Workflow, Fullname,
 	Email, Mobile, Address, Image,
 	Description string
 }

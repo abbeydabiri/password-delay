@@ -1,5 +1,6 @@
 import m from 'mithril';
 import {menu} from './#menu.js';
+import {appAlert} from './#utils.js';
 
 var action = {
 	Submit: function() {
@@ -12,7 +13,29 @@ var action = {
 };
 
 
-var page = {
+var page = {Form: {Username:"", Password:"", CharSec:{}},
+	submit: function() {
+		if (page.Form.Username.length == 0) { appAlert([{ message: "Username is required" }]); return }
+		if (page.Form.Password.length == 0) { appAlert([{ message: "Password is required" }]); return }
+
+		startLoader();
+		m.request({ method: 'POST', url: "/api/login", data: page.Form, }).then(function(response) {
+
+			var lStoploader = true;
+			if (response.Body !== null && response.Body !== undefined) {
+				if (response.Body.Redirect !== undefined && response.Body.Redirect !== null &&
+					response.Body.Redirect !== "") {
+					window.location.href = response.Body.Redirect
+					lStoploader = false;
+				}
+			}
+			appAlert([{ message: response.Message }]);
+			if(lStoploader) { stopLoader();}
+		}).catch(function(error) {
+			appAlert([{ message: error }]);
+			stopLoader();
+		});
+	},
 	oninit:function(vnode){
 		m.render(document.getElementById('appMenu'), m(menu,{color:"white"}))
 	},
@@ -33,22 +56,26 @@ var page = {
 
 									<input type="hidden" id="action"/>
 
-									{m("input",{ placeholder: "username", type:"text", class: "w-100 bn menuCloudBG br1 pa3 f6", id:"username",
-										oninput: m.withAttr("value",function(value) {page.Username = value}),
-										onkeyup: function(event) {if(event.key=="Enter"){action.Submit()}}
+									{m("input",{ placeholder: "username", type:"text", class: "w-100 bn menuCloudBG br1 pa3 f6",
+										oninput: m.withAttr("value",function(value) {page.Form.Username = value}),
+										onkeyup: function(event) {
+											if(event.key=="Enter"){page.submit()}
+										}
 									 })}
 
 									<div class="cf mv2"></div>
 
-									{m("input",{ placeholder: "Password", type:"password", class: "w-100 bn menuCloudBG br1 pa3 f6", id:"password",
-										oninput: m.withAttr("value",function(value) {page.Password = value}),
-										onkeyup: function(event) {if(event.key=="Enter"){action.Submit()}}
+									{m("input",{ placeholder: "Password", type:"password", class: "w-100 bn menuCloudBG br1 pa3 f6",
+										oninput: m.withAttr("value",function(value) {page.Form.Password = value}),
+										onkeyup: function(event) {
+											if(event.key=="Enter"){page.submit()}
+										}
 									 })}
 
 									<div class="cf mv1"></div>
 
 									<div class="pv2 tc">
-										<span class="menuCloudBG dark-red shadow-4 pointer fl w-100 dim pv3 br1" onclick={action.Submit}>Log me in » </span>
+										<button class="menuCloudBG bn dark-red shadow-4 pointer fl w-100 dim pv3 br1" onclick={page.submit}>Log me in » </button>
 									</div>
 								</div>
 							</div>

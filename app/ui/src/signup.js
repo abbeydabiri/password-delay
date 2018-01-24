@@ -4,7 +4,7 @@ import {appAlert} from './#utils.js';
 
 
 var page = { FormOne:"", FormTwo:"dn", Form: {Fullname:"",
-	Username:"", Password:"", ConfirmPassword:"", DelaySec:0, DelayChar:""},
+	Username:"", Password:"", ConfirmPassword:""},
 	gotoOne: function() { page.FormOne="", page.FormTwo="dn"; },
 	gotoTwo: function() {
 		if (page.Form.Fullname.length == 0) { appAlert([{ message: "Fullname is required" }]); return }
@@ -21,11 +21,10 @@ var page = { FormOne:"", FormTwo:"dn", Form: {Fullname:"",
 
 		startLoader();
 		m.request({ method: 'POST', url: "/api/signup", data: page.Form, }).then(function(response) {
-			
+
 			var lStoploader = true;
 			if (response.Body !== null) {
 				if (response.Body.Redirect !== null &&  response.Body.Redirect !== "") {
-					// window.location.href = response.Body.Redirect + "?" + new Date().getTime();
 					window.location.href = response.Body.Redirect
 					lStoploader = false;
 				}
@@ -36,7 +35,6 @@ var page = { FormOne:"", FormTwo:"dn", Form: {Fullname:"",
 			appAlert([{ message: error }]);
 			stopLoader();
 		});
-
 	},
 	oninit:function(vnode){
 		m.render(document.getElementById('appMenu'), m(menu,{color:"near-white"}))

@@ -5,8 +5,10 @@
 // ui/404.html
 // ui/451.html
 // ui/index.html
+// ui/dashboard.html
 // ui/assets/.DS_Store
 // ui/assets/bin/.DS_Store
+// ui/assets/bin/admin.bundle.js
 // ui/assets/bin/custom.js
 // ui/assets/bin/dashboard.bundle.js
 // ui/assets/bin/service-worker.js
@@ -137,6 +139,24 @@ func uiIndexHtml() (*asset, error) {
 	return a, err
 }
 
+// uiDashboardHtml reads file data from disk. It returns an error on failure.
+func uiDashboardHtml() (*asset, error) {
+	path := "/Codebase/GolangProjects/src/passworddelay/ui/dashboard.html"
+	name := "ui/dashboard.html"
+	bytes, err := bindataRead(path, name)
+	if err != nil {
+		return nil, err
+	}
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
+}
+
 // uiAssetsDs_store reads file data from disk. It returns an error on failure.
 func uiAssetsDs_store() (*asset, error) {
 	path := "/Codebase/GolangProjects/src/passworddelay/ui/assets/.DS_Store"
@@ -159,6 +179,24 @@ func uiAssetsDs_store() (*asset, error) {
 func uiAssetsBinDs_store() (*asset, error) {
 	path := "/Codebase/GolangProjects/src/passworddelay/ui/assets/bin/.DS_Store"
 	name := "ui/assets/bin/.DS_Store"
+	bytes, err := bindataRead(path, name)
+	if err != nil {
+		return nil, err
+	}
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
+}
+
+// uiAssetsBinAdminBundleJs reads file data from disk. It returns an error on failure.
+func uiAssetsBinAdminBundleJs() (*asset, error) {
+	path := "/Codebase/GolangProjects/src/passworddelay/ui/assets/bin/admin.bundle.js"
+	name := "ui/assets/bin/admin.bundle.js"
 	bytes, err := bindataRead(path, name)
 	if err != nil {
 		return nil, err
@@ -482,8 +520,10 @@ var _bindata = map[string]func() (*asset, error){
 	"ui/404.html": ui404Html,
 	"ui/451.html": ui451Html,
 	"ui/index.html": uiIndexHtml,
+	"ui/dashboard.html": uiDashboardHtml,
 	"ui/assets/.DS_Store": uiAssetsDs_store,
 	"ui/assets/bin/.DS_Store": uiAssetsBinDs_store,
+	"ui/assets/bin/admin.bundle.js": uiAssetsBinAdminBundleJs,
 	"ui/assets/bin/custom.js": uiAssetsBinCustomJs,
 	"ui/assets/bin/dashboard.bundle.js": uiAssetsBinDashboardBundleJs,
 	"ui/assets/bin/service-worker.js": uiAssetsBinServiceWorkerJs,
@@ -549,6 +589,7 @@ var _bintree = &bintree{nil, map[string]*bintree{
 			".DS_Store": &bintree{uiAssetsDs_store, map[string]*bintree{}},
 			"bin": &bintree{nil, map[string]*bintree{
 				".DS_Store": &bintree{uiAssetsBinDs_store, map[string]*bintree{}},
+				"admin.bundle.js": &bintree{uiAssetsBinAdminBundleJs, map[string]*bintree{}},
 				"custom.js": &bintree{uiAssetsBinCustomJs, map[string]*bintree{}},
 				"dashboard.bundle.js": &bintree{uiAssetsBinDashboardBundleJs, map[string]*bintree{}},
 				"service-worker.js": &bintree{uiAssetsBinServiceWorkerJs, map[string]*bintree{}},
@@ -569,6 +610,7 @@ var _bintree = &bintree{nil, map[string]*bintree{
 			}},
 			"manifest.json": &bintree{uiAssetsManifestJson, map[string]*bintree{}},
 		}},
+		"dashboard.html": &bintree{uiDashboardHtml, map[string]*bintree{}},
 		"index.html": &bintree{uiIndexHtml, map[string]*bintree{}},
 	}},
 }}

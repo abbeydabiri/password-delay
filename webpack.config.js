@@ -5,6 +5,7 @@ module.exports = {
   entry: {
     website: "./ui/src/#routes.js",
     dashboard: "./ui/src/dashboard/#routes.js",
+    admin: "./ui/src/admin/#routes.js",
   },
   output: {
     filename: "[name].bundle.js",

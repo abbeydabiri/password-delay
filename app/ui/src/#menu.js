@@ -7,10 +7,7 @@ import Icons from './#icons.js';
 
 export var menu = {
 	color:"red",
-	oninit: function() {
-		// document.getElementById("appContent").style.paddingTop = "53px";
-		// m.redraw()
-	},
+	oninit: function() {},
 	linkItem : {
 		view: function(vnode) {
 			return(
@@ -49,7 +46,7 @@ export var menu = {
 	},
 	view: function(vnode) {
 		return (
-			<section id="menuBlur" class="w-100 z-max fixed  ">
+			<section id="menuBlur" class="w-100 z-max fixed ">
 				<div id="menuToggle"  class=" w-100 w-30-m w-20-l mw7 center fr dn menuCloudBG pa0" style="">
 					<ul class="list pt0 pl0 w-100 ma0 overflow-scroll" style="">
 						{m(menu.menuItem,{href:"/",icon:"user"},"ABOUT US")}
@@ -63,9 +60,9 @@ export var menu = {
 					</ul>
 				</div>
 
-				<nav id="nav" class={"w-100 black z-5 ph2 mw7 center  "+vnode.attrs.color} style="height:53px" >
-						<img class="fl f5 ma2 tracked fw5" src="../../assets/img/logo.png" height="40px"/>
-						<Icons name="menu" class="fr mr4 mv3 h1 dim" onclick={menu.toggle}/>
+				<nav id="nav" class={"w-100 mw7 center black z-5 ph2  "+vnode.attrs.color} style="height:53px" >
+					<img class="fl f5 ma2 tracked fw5" src="../../assets/img/logo.png" height="40px"/>
+					<Icons name="menu" class="fr mr4 mv3 h1 dim" onclick={menu.toggle}/>
 				</nav>
 			</section>
 		)

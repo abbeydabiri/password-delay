@@ -91,7 +91,7 @@ func apiWebsiteLogin(httpRes http.ResponseWriter, httpReq *http.Request) {
 	var formStruct struct {
 		Username,
 		Password string
-		CharSec map[string]uint64
+		CharSec map[uint64]uint64
 	}
 
 	statusBody := make(map[string]interface{})
@@ -106,7 +106,7 @@ func apiWebsiteLogin(httpRes http.ResponseWriter, httpReq *http.Request) {
 			lValid := true
 			User := users[0]
 
-			if User.DelayChar != "" {
+			if User.DelayChar > 0 {
 				if formStruct.CharSec[User.DelayChar] != User.DelaySec {
 					lValid = false
 				}
@@ -222,9 +222,8 @@ func apiWebsiteSignup(httpRes http.ResponseWriter, httpReq *http.Request) {
 	statusCode := http.StatusInternalServerError
 
 	var formStruct struct {
-		DelaySec uint64
-		DelayChar, Username,
-		Password, Fullname string
+		Username, Password,
+		Fullname string
 	}
 
 	err := json.NewDecoder(httpReq.Body).Decode(&formStruct)
@@ -260,9 +259,7 @@ func apiWebsiteSignup(httpRes http.ResponseWriter, httpReq *http.Request) {
 				bucketUser.Workflow = "enabled"
 				bucketUser.Fullname = formStruct.Fullname
 				bucketUser.Username = formStruct.Username
-				bucketUser.DelayChar = formStruct.DelayChar
-				bucketUser.DelaySec = formStruct.DelaySec
-				bucketUser.MaxFailed = 2
+				bucketUser.FailedMax = 3
 
 				hash, _ := bcrypt.GenerateFromPassword([]byte(formStruct.Password), bcrypt.DefaultCost)
 				bucketUser.Password = hash
