@@ -1,13 +1,8 @@
 package utils
 
 import (
-	"bytes"
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
-	"net/http"
-	"strconv"
 
 	"passworddelay/config"
 )
@@ -69,53 +64,4 @@ func SendEmail(email Email, mySMTP SMTP) string {
 	}
 
 	return sMessage
-}
-
-func SendEmailWithSendInBlue(email Email) bool {
-
-	if email.To == "" || email.Subject == "" || email.Message == "" {
-		return false
-	}
-
-	if email.From == "" {
-		email.From = config.Get().Mailer.Username
-	}
-
-	if email.FromName == "" {
-		email.FromName = config.Get().Mailer.FromName
-	}
-
-	sendinBlueMessage := make(map[string]interface{})
-	sendinBlueMessage["to"] = map[string]string{email.To: email.To}
-	sendinBlueMessage["from"] = []string{email.From, email.FromName}
-	sendinBlueMessage["subject"] = email.Subject
-	sendinBlueMessage["html"] = email.Message
-
-	jsonBytes, err := json.Marshal(sendinBlueMessage)
-	if err != nil {
-		log.Println(err)
-		return false
-	}
-
-	if len(jsonBytes) == 0 {
-		return false
-	}
-
-	httpReq, _ := http.NewRequest("POST", "https://api.sendinblue.com/v2.0/email", bytes.NewBuffer(jsonBytes))
-	httpReq.Header.Add("Content-Type", "application/json")
-	httpReq.Header.Add("Content-Length", strconv.Itoa(len(jsonBytes)))
-	httpReq.Header.Add("api-key", config.Get().SENDINBLUE)
-
-	client := &http.Client{}
-	resp, err := client.Do(httpReq)
-	if err != nil {
-		log.Println("HttpPostJSON error: " + err.Error())
-		return false
-	}
-
-	resBody, _ := ioutil.ReadAll(resp.Body)
-	defer resp.Body.Close()
-
-	log.Println("resBody: " + string(resBody))
-	return true
 }

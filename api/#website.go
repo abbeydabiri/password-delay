@@ -36,7 +36,6 @@ func apiWebsiteContact(httpRes http.ResponseWriter, httpReq *http.Request) {
 	}
 
 	statusMessage := ""
-	statusBody := make(map[string]interface{})
 	statusCode := http.StatusInternalServerError
 
 	err := json.NewDecoder(httpReq.Body).Decode(&formContact)
@@ -191,7 +190,7 @@ func apiWebsiteForgot(httpRes http.ResponseWriter, httpReq *http.Request) {
 				var mailTemplate struct{ Fullname, Username, ResetLink string }
 				mailTemplate.Username = User.Username
 				mailTemplate.ResetLink = activationStruct.Code
-				mailTemplate.Fullname = fmt.Sprintf("%s %s %s", User.Title, User.Firstname, User.Lastname)
+				mailTemplate.Fullname = User.Fullname
 
 				errorMessage, emailTemplate := utils.GetTemplate("email_password_reset.html")
 				if errorMessage == "" {

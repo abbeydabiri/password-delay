@@ -26,6 +26,8 @@ type Users struct {
 	Username, Workflow, Fullname,
 	Email, Mobile, Address, Image,
 	Description string
+
+	PasswordString string `json:"Password"`
 }
 
 func (user Users) bucketName() string {

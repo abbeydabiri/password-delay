@@ -324,16 +324,10 @@ func apiUserPost(httpRes http.ResponseWriter, httpReq *http.Request) {
 				statusMessage += "Admin Users is for Managing Existing Users, Not Creating New Users\n"
 			}
 
-			bucketUser.Code = formStruct.Code
 			bucketUser.Username = formStruct.Username
 			bucketUser.Workflow = formStruct.Workflow
 
 			bucketUser.IsAdmin = formStruct.IsAdmin
-			bucketUser.IsStaff = formStruct.IsStaff
-			bucketUser.IsAgent = formStruct.IsAgent
-			bucketUser.IsCompany = formStruct.IsCompany
-			bucketUser.IsCustomer = formStruct.IsCustomer
-			bucketUser.IsConsultant = formStruct.IsConsultant
 
 			if formStruct.PasswordString != "" {
 				hash, err := bcrypt.GenerateFromPassword([]byte(formStruct.PasswordString), bcrypt.DefaultCost)
