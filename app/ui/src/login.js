@@ -41,7 +41,7 @@ var page = {Form: {Username:"", Password:"", CharSec:{}},
 	},
 	view:function(vnode){
 		return (
-			<article class="vh-100 dt w-100 loginBG">
+			<article class="vh-100 dt w-100 bg-primary">
 				<div id="appAlert"></div>
 				<div class="dtc v-mid tc white ph3 ph4-l">
 
@@ -56,7 +56,7 @@ var page = {Form: {Username:"", Password:"", CharSec:{}},
 
 									<input type="hidden" id="action"/>
 
-									{m("input",{ placeholder: "username", type:"text", class: "w-100 bn menuCloudBG br1 pa3 f6",
+									{m("input",{ placeholder: "username", type:"text", class: "w-100 bn bg-secondary br1 pa3 f6",
 										oninput: m.withAttr("value",function(value) {page.Form.Username = value}),
 										onkeyup: function(event) {
 											if(event.key=="Enter"){page.submit()}
@@ -65,7 +65,7 @@ var page = {Form: {Username:"", Password:"", CharSec:{}},
 
 									<div class="cf mv2"></div>
 
-									{m("input",{ placeholder: "Password", type:"password", class: "w-100 bn menuCloudBG br1 pa3 f6",
+									{m("input",{ placeholder: "Password", type:"password", class: "w-100 bn bg-secondary br1 pa3 f6",
 										oninput: m.withAttr("value",function(value) {page.Form.Password = value}),
 										onkeyup: function(event) {
 											if(event.key=="Enter"){page.submit()}
@@ -75,7 +75,7 @@ var page = {Form: {Username:"", Password:"", CharSec:{}},
 									<div class="cf mv1"></div>
 
 									<div class="pv2 tc">
-										<button class="menuCloudBG bn dark-red shadow-4 pointer fl w-100 dim pv3 br1" onclick={page.submit}>Log me in » </button>
+										<button class="bg-secondary bn dark-red shadow-4 pointer fl w-100 dim pv3 br1" onclick={page.submit}>Log me in » </button>
 									</div>
 								</div>
 							</div>

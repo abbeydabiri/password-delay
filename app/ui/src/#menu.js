@@ -13,7 +13,7 @@ export var menu = {
 			return(
 				<a class="link" href={vnode.attrs.href}>
 					<li class="tc" onclick={menu.toggle}>
-						<p class="ph2 pv3 mv0 black dim bb b--gray">
+						<p class="ph2 pv3 mv0 gray hover-red dim">
 							{vnode.children}
 						</p>
 					</li>
@@ -51,9 +51,9 @@ export var menu = {
 					<ul class="list pt0 pl0 w-100 ma0 overflow-scroll" style="">
 						{m(menu.menuItem,{href:"/",icon:"user"},"ABOUT US")}
 						{m(menu.menuItem,{href:"/signup",icon:"user"},"SIGN UP")}
-						{m(menu.menuItem,{href:"/login",icon:"logout"},"LOG IN")}
+						{m(menu.linkItem,{href:"/login",icon:"logout"},"LOG IN")}
 						<li class="tc" onclick={menu.toggle}>
-							<p class="ph2 pv3 mv0 near-white loginBG">
+							<p class="ph2 pv3 mv0 near-white bg-primary">
 								CLOSE
 							</p>
 						</li>

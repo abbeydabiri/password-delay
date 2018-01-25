@@ -9,7 +9,7 @@ export var page = {
 	},
 	view:function(vnode){
 		return (
-			<section class="loginBG min-vh-100">
+			<section class="bg-primary min-vh-100">
 				<div id="appAlert"></div>
 				<section class="mw9-ns center pa2 black-80 flex flex-row justify-center">
 

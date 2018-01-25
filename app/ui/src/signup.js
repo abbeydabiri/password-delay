@@ -55,7 +55,7 @@ var page = { FormOne:"", FormTwo:"dn", Form: {Fullname:"",
 	},
 	view:function(vnode){
 		return (
-			<article class="vh-100 dt w-100 loginBG">
+			<article class="vh-100 dt w-100 bg-primary">
 				<div id="appAlert"></div>
 				<div class="dtc v-mid tc ph3 ph4-l">
 
@@ -71,14 +71,14 @@ var page = { FormOne:"", FormTwo:"dn", Form: {Fullname:"",
 									<input type="hidden" id="action"/>
 
 									<span class={"cf w-100 "+page.FormOne}>
-										{m("input",{ placeholder: "Fullname", type:"text", class: "red w-100 ba b--light-gray menuCloudBG br1 pa3 f6",
+										{m("input",{ placeholder: "Fullname", type:"text", class: "red w-100 ba b--light-gray bg-secondary br1 pa3 f6",
 											oninput: m.withAttr("value",function(value) {page.Form.Fullname = value}),
 											onkeyup: function(event) {if(event.key=="Enter"){page.gotoTwo}}
 										})}
 
 										<div class="cf mv2"></div>
 
-										{m("input",{ placeholder: "Username", type:"text", class: "red w-100 ba b--light-gray menuCloudBG br1 pa3 f6",
+										{m("input",{ placeholder: "Username", type:"text", class: "red w-100 ba b--light-gray bg-secondary br1 pa3 f6",
 											oninput: m.withAttr("value",function(value) {page.Form.Username = value}),
 											onkeyup: function(event) {if(event.key=="Enter"){page.gotoTwo}}
 										})}
@@ -86,21 +86,21 @@ var page = { FormOne:"", FormTwo:"dn", Form: {Fullname:"",
 										<div class="cf mv1"></div>
 
 										<div class="pv2 tc">
-											<span class="menuCloudBG dark-red shadow-4 pointer fl w-100 dim pv3 br1" onclick={page.gotoTwo}>Next » </span>
+											<span class="bg-secondary dark-red shadow-4 pointer fl w-100 dim pv3 br1" onclick={page.gotoTwo}>Next » </span>
 										</div>
 										<div class="cf mv1"></div>
 									</span>
 
 
 									<span class={"cf w-100 "+page.FormTwo}>
-										{m("input",{ placeholder: "Enter Password", type:"password", class: "red w-100 ba b--light-gray menuCloudBG br1 pa3 f6",
+										{m("input",{ placeholder: "Enter Password", type:"password", class: "red w-100 ba b--light-gray bg-secondary br1 pa3 f6",
 											oninput: m.withAttr("value",function(value) {page.Form.Password = value}),
 											onkeyup: function(event) {if(event.key=="Enter"){page.gotoThree}}
 										})}
 
 										<div class="cf mv2"></div>
 
-										{m("input",{ placeholder: "Confirm Password", type:"password", class: "red w-100 ba b--light-gray menuCloudBG br1 pa3 f6",
+										{m("input",{ placeholder: "Confirm Password", type:"password", class: "red w-100 ba b--light-gray bg-secondary br1 pa3 f6",
 											oninput: m.withAttr("value",function(value) {page.Form.ConfirmPassword = value}),
 											onkeyup: function(event) {if(event.key=="Enter"){page.gotoThree}}
 										})}
@@ -108,8 +108,8 @@ var page = { FormOne:"", FormTwo:"dn", Form: {Fullname:"",
 										<div class="cf mv1"></div>
 
 										<div class="pv2 tc">
-											<span class="menuCloudBG dark-red shadow-4 pointer fl w-40 dim pv3 br1" onclick={page.gotoOne}>Back</span>
-											<span class="menuCloudBG dark-red shadow-4 pointer fr w-40 dim pv3 br1" onclick={page.submit}>Submit » </span>
+											<span class="bg-secondary dark-red shadow-4 pointer fl w-40 dim pv3 br1" onclick={page.gotoOne}>Back</span>
+											<span class="bg-secondary dark-red shadow-4 pointer fr w-40 dim pv3 br1" onclick={page.submit}>Submit » </span>
 										</div>
 										<div class="cf mv1"></div>
 									</span>

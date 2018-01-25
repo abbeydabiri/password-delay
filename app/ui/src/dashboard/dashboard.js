@@ -34,48 +34,28 @@ var page = {
 	oncreate:function(){page.loadTasks()},
 	view:function(vnode){
 	return  (
-		<section class="">
+		<section class="bg-primary">
 
 			<div id="appAlert"></div>
 
 			<div class="cf w-100 pv2"></div>
 
-			<ul class="list pl0 mv0 measure center cf ">
-				{page.pageSearchList}
-			</ul>
+			<div class="pv0 cf w-100">
+				<section>
+					<div class="flex ph2 h-100 f6 i bg-primary">
+						<span class={"v-mid pointer link h-100 flex pa3 items-center br1 ba b--white-10 ">
+							<Icons name="people" class="h1 pr2"/>
+							User Manager
+						</span>
+						&nbsp;
+						<span class={"v-mid pointer link h-100 flex pa3 items-center br1 ba b--white-10 ">
+							<Icons name="lock-locked" class="h1 pr2"/>
+							Security Log
+						</span>
+					</div>
+				</section>
 
-
-			{m("ul",{class:"list pl0 mt0 measure center cf"},[
-				m("li",{class:"fl w-100 lh-copy pa3 ph0-l bb b--black-10"},[
-					m("div",{class:"f6"},"Fullname"),
-					m("div", {class:"br1  b--white "} ,m("input",{ type:"text", style:"", class: "bg-light-gray w-100 black bw0 br1 pa2 f6", id:"username",
-						oninput: m.withAttr("value",function(value) {page.Username = value}),
-						onkeyup: function(event) {if(event.key=="Enter"){action.Submit()}}
-					 }))
-				]),
-				m("li",{class:"fl w-100 lh-copy pa3 ph0-l bb b--black-10"},[
-					m("div",{class:"f6"},"Outlet Name"),
-					m("div", {class:"br1  b--white "} ,m("input",{ type:"text", style:"", class: "bg-light-gray w-100 black bw0 br1 pa2 f6", id:"username",
-						oninput: m.withAttr("value",function(value) {page.Username = value}),
-						onkeyup: function(event) {if(event.key=="Enter"){action.Submit()}}
-					 }))
-				]),
-			])}
-
-			{m("div",{class:"cf w-100 pv2"})}
-
-			{m("div", {class:"pa2 tc cf center"}, m("span",{
-				class:"pa3 white-90 w-100 br2 shadow-4 bw0 link dim pointer "+page.checkBtnColor,
-			 		onclick:page.checkInOut },page.checkBtnText))}
-
-			{m("div",{class:"cf w-100 pv2"})}
-
-			{m("nav",{class:"w-100 z-max fixed loginBG bottom-0 tc center"},[
-				m(footerItem,{color:"near-white hover-bg-white hover-red", href:"/dashboard/profile",icon:"person"},"My Profile"),
-				m(footerItem,{color:"near-white hover-bg-white hover-red", href:"/dashboard/password",icon:"lock-locked"},"Set Password"),
-				m(footerItem,{color:"near-white hover-bg-white hover-red", href:"/dashboard/history",icon:"spreadsheet"},"Security Log"),
-				m(footerLink,{color:"near-white hover-bg-white hover-red", href:"/logout",icon:"logout"},"Logout")
-			])}
+			<div class="cf w-100 pv2"></div>
 
 		</section>
 	)},
