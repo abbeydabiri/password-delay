@@ -16,12 +16,12 @@ import {saveForm} from '../#pageFunctions.js';
 var viewHeader = {
 	view: function(vnode){
 		return (
-			m("nav",{class:"w-100 bg-black white-90 shadow-4 z-5 cf tc relative fixed top-0"},[
+			m("nav",{class:"w-100 menuCloudBG dark-red shadow-4 z-5 cf tc relative fixed top-0"},[
 				m("a",{class:"link",oncreate:m.route.link,href:"/dashboard"},[
-					m(Icons,{name:"chevron-left",class:"absolute white-90 h1 dim left-0 top-0 pa3"})
+					m(Icons,{name:"chevron-left",class:"absolute dark-red h1 dim left-0 top-0 pa3"})
 				]),
 				m("p","PROFILE"),
-				m(Icons,{name:"pencil",class:"absolute white-90 h1 dim right-0 top-0 pa3 pointer",onclick:page.editForm}),
+				m(Icons,{name:"pencil",class:"absolute dark-red h1 dim right-0 top-0 pa3 pointer",onclick:page.editForm}),
 			])
 		)
 	}
@@ -30,10 +30,10 @@ var viewHeader = {
 var editHeader = {
 	view: function(vnode){
 		return (
-			m("nav",{class:"w-100 bg-black white-90 shadow-4 z-5 cf tc relative fixed top-0"},[
-				m(Icons,{name:"chevron-left",class:"absolute white-90 h1 dim left-0 top-0 pa3 pointer",onclick:page.viewForm}),
+			m("nav",{class:"w-100 menuCloudBG dark-red shadow-4 z-5 cf tc relative fixed top-0"},[
+				m(Icons,{name:"chevron-left",class:"absolute dark-red h1 dim left-0 top-0 pa3 pointer",onclick:page.viewForm}),
 				m("p","EDIT PROFILE"),
-				m(Icons,{name:"check",class:"absolute white-90 h1 dim right-0 top-0 pa3",onclick:page.saveForm}),
+				m(Icons,{name:"check",class:"absolute dark-red h1 dim right-0 top-0 pa3",onclick:page.saveForm}),
 			])
 		)
 	}
@@ -115,7 +115,7 @@ var page = {
 
 			{m("div",{class:"cf w-100 mv2"})}
 
-			{m("nav",{class:"w-100 z-max fixed bg-black bottom-0 tc center"},[
+			{m("nav",{class:"w-100 z-max fixed loginBG bottom-0 tc center"},[
 				m(footerItem,{color:"red bg-white hover-bg-black hover-white", href:"/dashboard/profile",icon:"person"},"My Profile"),
 				m(footerItem,{color:"near-white hover-bg-white hover-red", href:"/dashboard/password",icon:"lock-locked"},"Set Password"),
 				m(footerItem,{color:"near-white hover-bg-white hover-red", href:"/dashboard/history",icon:"spreadsheet"},"Security Log"),

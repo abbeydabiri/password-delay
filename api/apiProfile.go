@@ -14,18 +14,12 @@ import (
 )
 
 type apiProfileStruct struct {
-	ID uint64
-	IsAdmin, IsCustomer,
-	IsConsultant, IsCompany bool
+	ID      uint64
+	IsAdmin bool
 	Username, Workflow,
-	Fullname, Title, Firstname, Lastname, Othername, Email, Mobile,
-	Address, City, State, Country, Image, Description,
-
-	Referrer, BankName, BankAccountName,
-	BankAccountType, BankAccountNumber,
-
-	Occupation, NextOfKin, NextOfKinMobile, Employer,
-	Dob, Gender, MaritalStatus, Website string
+	Fullname, Email, Mobile,
+	Address, Image,
+	Description string
 }
 
 func apiHandlerProfile(middlewares alice.Chain, router *Router) {
@@ -121,22 +115,6 @@ func apiProfilePost(httpRes http.ResponseWriter, httpReq *http.Request) {
 					statusMessage += "Fullname is Required \n"
 				}
 
-				if bucketUser.Description == "" {
-					statusMessage += "Description is Required \n"
-				}
-
-				if bucketUser.Email == "" {
-					statusMessage += "Email is Required \n"
-				}
-
-				if bucketUser.Mobile == "" {
-					statusMessage += "Mobile is Required \n"
-				}
-
-				if bucketUser.Address == "" {
-					statusMessage += "Address is Required \n"
-				}
-
 				if strings.HasSuffix(statusMessage, "\n") {
 					statusMessage = statusMessage[:len(statusMessage)-2]
 				}
@@ -147,10 +125,10 @@ func apiProfilePost(httpRes http.ResponseWriter, httpReq *http.Request) {
 				if !strings.HasPrefix(formStruct.Image, "data:image/") {
 					formStruct.Image = ""
 				} else {
-					base64Bytes, err := base64.StdEncoding.DecodeString(
+					base64Bytes, errNew := base64.StdEncoding.DecodeString(
 						strings.Split(formStruct.Image, "base64,")[1])
 
-					if base64Bytes != nil && err == nil {
+					if base64Bytes != nil && errNew == nil {
 						fileExt, fileType := utils.GetFileExt(formStruct.Image[:20])
 
 						if fileExt != "" {

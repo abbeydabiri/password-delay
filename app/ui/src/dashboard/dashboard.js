@@ -70,7 +70,7 @@ var page = {
 
 			{m("div",{class:"cf w-100 pv2"})}
 
-			{m("nav",{class:"w-100 z-max fixed bg-black bottom-0 tc center"},[
+			{m("nav",{class:"w-100 z-max fixed loginBG bottom-0 tc center"},[
 				m(footerItem,{color:"near-white hover-bg-white hover-red", href:"/dashboard/profile",icon:"person"},"My Profile"),
 				m(footerItem,{color:"near-white hover-bg-white hover-red", href:"/dashboard/password",icon:"lock-locked"},"Set Password"),
 				m(footerItem,{color:"near-white hover-bg-white hover-red", href:"/dashboard/history",icon:"spreadsheet"},"Security Log"),

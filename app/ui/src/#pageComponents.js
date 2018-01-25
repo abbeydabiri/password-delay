@@ -44,7 +44,7 @@ export var pageSearchList = {view: function(vnode) {return(
 			<table class="f6 w-100" cellspacing="0">
 				<thead class="">
 					<tr class="loginBG near-white">
-						<th class="fw6 tl pa2 w-100">
+						<th class="fw6 tl pa2 w-100 br2 br--top">
 							Search Results
 
 							<Icons name="pencil" class="h1 pl2 fr"/>

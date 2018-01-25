@@ -1,4 +1,4 @@
-*PDIA - Password Delay Intelligence Algorithms*
+*Password Delay - Password Delay Intelligence Algorithms*
 
 A demo application demonstrating close procedure
 crypto-analysis and fourth tier security development

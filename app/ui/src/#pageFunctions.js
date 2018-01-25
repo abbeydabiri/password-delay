@@ -27,20 +27,25 @@ export function encodeFileBase64(e, page, field) {
 	} else {page.Form[field] = ""; m.redraw() }
 }
 
-export function displayImage(e, page, field) {
+export function displayImage(e, pageForm, field) {
 	var reader = new FileReader();
 	var selectedFile = e.target.files[0]; e.target.value = '';
 	reader.readAsDataURL(selectedFile);
 	reader.onload = function () {
-		if(selectedFile.size > 2000000){
-			appAlert([{ type: 'bg-red', message: "Image File must be less than 2MB", }]);
+		if(selectedFile.size > 500000){
+			appAlert([{ type: 'bg-red', message: "Image File must be less than 512kb", }]);
 		} else {
 			switch(selectedFile.type){
 				case "image/gif":
 				case "image/png":
 				case "image/jpg":
 				case "image/jpeg":
-					page.Form[field] = reader.result;
+					pageForm[field] = reader.result;
+					var tagName = "Image"
+					if(pageForm["imagePos"] != undefined){
+						tagName += pageForm["imagePos"];
+					}
+					document.getElementById(tagName).setAttribute("src",reader.result);
 					m.redraw()
 					break;
 
