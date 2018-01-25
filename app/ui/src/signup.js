@@ -25,8 +25,7 @@ var page = { FormOne:"", FormTwo:"dn", Form: {Fullname:"",
 			var lStoploader = true;
 			if (response.Body !== null) {
 				if (response.Body.Redirect !== null &&  response.Body.Redirect !== "") {
-					window.location.href = response.Body.Redirect
-
+					
 					lStoploader = false;
 					m.request({ method: 'POST', url: response.Body.Redirect, data: page.Form, }).then(function(responseSub) {
 						var lStoploaderSub = true;

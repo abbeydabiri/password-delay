@@ -266,7 +266,11 @@ func apiUserGet(httpRes http.ResponseWriter, httpReq *http.Request) {
 				if len(usersList) > 0 {
 
 					statusBody = apiUserStruct{
-						ID: usersList[0].ID,
+						ID:        usersList[0].ID,
+						Failed:    usersList[0].Failed,
+						DelaySec:  usersList[0].DelaySec,
+						DelayChar: usersList[0].DelayChar,
+						FailedMax: usersList[0].FailedMax,
 
 						Username: usersList[0].Username,
 						Workflow: usersList[0].Workflow,
@@ -326,15 +330,19 @@ func apiUserPost(httpRes http.ResponseWriter, httpReq *http.Request) {
 
 			bucketUser.Username = formStruct.Username
 			bucketUser.Workflow = formStruct.Workflow
-
 			bucketUser.IsAdmin = formStruct.IsAdmin
 
+			bucketUser.Failed = formStruct.Failed
+			bucketUser.DelaySec = formStruct.DelaySec
+			bucketUser.DelayChar = formStruct.DelayChar
+			bucketUser.FailedMax = formStruct.FailedMax
+
 			if formStruct.PasswordString != "" {
-				hash, err := bcrypt.GenerateFromPassword([]byte(formStruct.PasswordString), bcrypt.DefaultCost)
-				if err == nil {
+				hash, errNew := bcrypt.GenerateFromPassword([]byte(formStruct.PasswordString), bcrypt.DefaultCost)
+				if errNew == nil {
 					bucketUser.Password = hash
 				} else {
-					statusMessage = err.Error()
+					statusMessage = errNew.Error()
 				}
 			}
 

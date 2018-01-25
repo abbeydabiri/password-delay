@@ -1,9 +1,12 @@
 import m from 'mithril';
-import {menu} from './#menu.js';
+import menu from './#menu.js';
 import {footerItem} from './#footer.js';
+import {footerLink} from './#footer.js';
+
 import Icons from  '../#icons.js';
 import {appAlert} from '../#utils.js';
 import {checkRedirect} from '../#utils.js';
+
 
 var viewTaskManager = {
 	view: function(vnode){
@@ -26,72 +29,7 @@ var viewTaskManager = {
 
 var page = {
 	Url: "", Form: {}, searchXHR: null,
-	oninit:function(){ menu(); },
-
-	loadTasks: function(){
-		var searchList = [];
-		var pageSearchUrl = "/api/tasks/search?workflow=publish&search="
-		if (page.searchXHR !== null) { page.searchXHR.abort() } page.searchXHR = null;
-		m.request({ method: 'GET', url: pageSearchUrl,
-			config: function(xhr) {page.searchXHR = xhr}, }).then(function(response) {
-
-			checkRedirect(response);
-			if (response.Code == 200) {
-				if (response.Body !== null && response.Body !== undefined ){
-					var POS = 1;
-					var color = "";
-
-					response.Body.map(function(result) { if (result.ID > 0) {
-
-						var priority = "";
-						var prioritycolor = "";
-						var subDetails = result.SubDetails.split("|");
-
-						switch(subDetails[0]) {
-							default: //case "low":
-								priority = "L";
-								prioritycolor = "bg-green";
-								break;
-							case "medium":
-								priority = "M";
-								prioritycolor = "bg-orange";
-								break;
-							case "high":
-								priority = "H";
-								prioritycolor = "bg-red";
-								break;
-						}
-
-
-						color = (result.Workflow == "pending") ?  "black" : "gray";
-						searchList.push(m(viewTaskManager,{id:result.ID, color: color,
-							title: result.Details, prioritycolor: prioritycolor,
-							priority: priority, days: subDetails[1]}
-						))
-					}})
-				}
-			}
-			page.pageSearchList = searchList;
-		}).catch(function(error) {
-			appAlert([{ type: 'bg-red', message: "Network Connectivity Error \n Please Check Your Network Access", }]);
-		});
-	},
-
-	checkBtnText: "CHECK IN",
-	checkBtnColor: "bg-green",
-	checkInOut:function(){
-		switch(page.checkBtnColor){
-			case "bg-green":
-				page.checkBtnText = "CHECK-OUT";
-				page.checkBtnColor = "bg-red";
-				break;
-
-			default:
-				page.checkBtnText = "CHECK IN";
-				page.checkBtnColor = "bg-green";
-				break;
-		}
-	},
+	oninit_NOMENU:function(){ m.render(document.getElementById('appMenu'), m(menu)) },
 
 	oncreate:function(){page.loadTasks()},
 	view:function(vnode){
@@ -133,10 +71,10 @@ var page = {
 			{m("div",{class:"cf w-100 pv2"})}
 
 			{m("nav",{class:"w-100 z-max fixed bg-black bottom-0 tc center"},[
-				m(footerItem,{color:"red bg-white hover-bg-black hover-white", href:"/customer",icon:"person"},"CATEGORY"),
-				m(footerItem,{color:"near-white hover-bg-white hover-red", href:"/customer/consumer",icon:"basket"},"BASKET"),
-				m(footerItem,{color:"near-white hover-bg-white hover-red", href:"/customer/outlet",icon:"basket"},"BIDS"),
-				m(footerItem,{color:"near-white hover-bg-white hover-red", href:"/customer/media",icon:"aperture"},"WALLET")
+				m(footerItem,{color:"near-white hover-bg-white hover-red", href:"/dashboard/profile",icon:"person"},"My Profile"),
+				m(footerItem,{color:"near-white hover-bg-white hover-red", href:"/dashboard/password",icon:"lock-locked"},"Set Password"),
+				m(footerItem,{color:"near-white hover-bg-white hover-red", href:"/dashboard/history",icon:"spreadsheet"},"Security Log"),
+				m(footerLink,{color:"near-white hover-bg-white hover-red", href:"/logout",icon:"logout"},"Logout")
 			])}
 
 		</section>

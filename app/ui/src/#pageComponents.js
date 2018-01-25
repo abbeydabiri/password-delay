@@ -68,7 +68,7 @@ export var getPageSearchListItem = {view: function(vnode) {return(
 				<b>{vnode.attrs.POS}</b> - {vnode.attrs.Details}
 			</span>
 
-			<small class="fr pointer hover-orange truncate" onclick={vnode.attrs.Edit}>
+			<small style="font-size:60%" class="fr pointer hover-orange truncate" onclick={vnode.attrs.Edit}>
 				{vnode.attrs.Date}
 			</small>
 		</td>
