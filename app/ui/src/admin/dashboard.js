@@ -25,10 +25,10 @@ var page = {
 		page.Menuusers = page.Menuhits = "near-white dim";
 		switch (form.Url) {
 			case "/api/hits":
-				page.Menuhits = "dark-red menuCloudBG dim";
+				page.Menuhits = "dark-red bg-secondary dim";
 				break;
 			case "/api/users":
-				page.Menuusers = "dark-red menuCloudBG dim";
+				page.Menuusers = "dark-red bg-secondary dim";
 				break;
 		}
 		page.formCurrent = form

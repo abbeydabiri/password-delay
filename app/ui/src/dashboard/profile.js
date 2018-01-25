@@ -17,7 +17,7 @@ var viewHeader = {
 	view: function(vnode){
 		return (
 			m("nav",{class:"w-100 bg-secondary dark-red shadow-4 z-5 cf tc relative fixed top-0"},[
-				m("a",{class:"link",oncreate:m.route.link,href:"/dashboard"},[
+				m("a",{class:"link",href:"/dashboard"},[
 					m(Icons,{name:"chevron-left",class:"absolute dark-red h1 dim left-0 top-0 pa3"})
 				]),
 				m("p","PROFILE"),

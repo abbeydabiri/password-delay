@@ -7,55 +7,60 @@ import Icons from  '../#icons.js';
 import {appAlert} from '../#utils.js';
 import {checkRedirect} from '../#utils.js';
 
+import {defaultImage} from '../#pageFunctions.js';
+import {switchPageMode} from '../#pageFunctions.js';
 
-var viewTaskManager = {
-	view: function(vnode){
-		return (
-			m("li",{class:"fl w-100 lh-copy pa3 ph0-l bb b--black-10"},[
-				m("div",{id:vnode.attrs.id+"Task", class:"flex items-center "+vnode.attrs.color},[
-					m("div",{class:"pa2 near-white "+vnode.attrs.prioritycolor ,onclick:()=>page.openTaskManager(vnode.attrs.id)},vnode.attrs.priority),
-					m("div",{class:"ph2 flex-auto"},[
-						m("span",{class:"f6 db black-70 truncate"},vnode.attrs.title),
-						m("small",{class:"gray db i"},vnode.attrs.days),
-					]),
-					m("div",m(Icons,{name:"chevron-top", class:"dn w1 h1 dim", id:vnode.attrs.id+"Open",onclick:()=>page.openTaskManager(vnode.attrs.id)})),
-					m("div",m(Icons,{name:"chevron-bottom", class:" w1 h1 dim", id:vnode.attrs.id+"Closed",onclick:()=>page.openTaskManager(vnode.attrs.id)}))
-				]),
-				m("div",{class:" fl w-100 black-70 tl dn pv2", id:vnode.attrs.id+"Message"}),
-			])
-		)
-	}
-}
 
 var page = {
-	Url: "", Form: {}, searchXHR: null,
+	Url: "/api/dashboard", Form: {}, searchXHR: null,
 	oninit_NOMENU:function(){ m.render(document.getElementById('appMenu'), m(menu)) },
 
-	oncreate:function(){page.loadTasks()},
+	oncreate:function(){switchPageMode(page, "view");},
 	view:function(vnode){
 	return  (
-		<section class="bg-primary">
+		<section class="bg-primary min-vh-100">
 
 			<div id="appAlert"></div>
 
-			<div class="cf w-100 pv2"></div>
+			<div class="dark-red ph2 pt1 pb3 bg-primary">
+				<div class="cf center w-100 w-50-m w-25-l pv2 avenir near-white">
 
-			<div class="pv0 cf w-100">
-				<section>
-					<div class="flex ph2 h-100 f6 i bg-primary">
-						<span class={"v-mid pointer link h-100 flex pa3 items-center br1 ba b--white-10 ">
-							<Icons name="people" class="h1 pr2"/>
-							User Manager
-						</span>
-						&nbsp;
-						<span class={"v-mid pointer link h-100 flex pa3 items-center br1 ba b--white-10 ">
-							<Icons name="lock-locked" class="h1 pr2"/>
-							Security Log
+					<div class="tc w-100 pv2">
+						{m("img",{class: "br-100 pa1 ba b--white-10 h4 w4 pointer", style:"", id: "image", src:page.Form.Image,
+							onerror: m.withAttr("id",function(id){defaultImage(id)})
+						})}
+						<p class="mv1"> {page.Form.Fullname} </p>
+						<small class="i">{page.Form.Username}</small>
+					</div>
+
+					<div class="cf bg-white-10 br2 pt1">
+						<span class="flex pa1 items-center f6 bb b--white-30">
+							<Icons name="person" class="h1 pr2"/>
+							Private Details
 						</span>
 					</div>
-				</section>
 
-			<div class="cf w-100 pv2"></div>
+					<div class="cf mv2 f6">
+						<span class="fl">{page.Form.Mobile}</span>
+						<span class="fr">{page.Form.Email}</span>
+					</div>
+					<div class="cf mv3 f6">
+						<p class="i f7 bb b--white-10">About Me</p>
+						{page.Form.Description}
+					</div>
+
+				</div>
+			</div>
+
+
+			{m("div",{class:"cf w-100 mv2"})}
+
+			{m("nav",{class:"w-100 z-max fixed bg-primary bottom-0 tc center"},[
+				m(footerItem,{color:"near-white hover-bg-white hover-red", href:"/dashboard/profile",icon:"person"},"My Profile"),
+				m(footerItem,{color:"near-white hover-bg-white hover-red", href:"/dashboard/password",icon:"lock-locked"},"Set Password"),
+				m(footerItem,{color:"near-white hover-bg-white hover-red", href:"/dashboard/history",icon:"spreadsheet"},"Security Log"),
+				m(footerLink,{color:"near-white hover-bg-white hover-red", href:"/logout",icon:"logout"},"Logout")
+			])}
 
 		</section>
 	)},

@@ -3,18 +3,28 @@ import {menu} from './#menu.js';
 import {appAlert} from './#utils.js';
 
 
-var page = { FormOne:"", FormTwo:"dn", Form: {Fullname:"",
-	Username:"", Password:"", ConfirmPassword:""},
+var page = { FormOne:"", FormTwo:"dn", Form: {Fullname:"", Username:"",
+	Password:"", ConfirmPassword:"", Mobile:"", Email:""},
 	gotoOne: function() { page.FormOne="", page.FormTwo="dn"; },
 	gotoTwo: function() {
 		if (page.Form.Fullname.length == 0) { appAlert([{ message: "Fullname is required" }]); return }
 		if (page.Form.Fullname.length < 7) { appAlert([{ message: "Fullname is too short" }]); return }
-		if (page.Form.Username.length == 0) { appAlert([{ message: "Username is required" }]); return }
-		if (page.Form.Username.length < 3) { appAlert([{ message: "Username is too short" }]); return }
+
+		if (page.Form.Mobile.length == 0) { appAlert([{ message: "Mobile is required" }]); return }
+		if( page.Form.Mobile.length < 11){ appAlert([{ message: "Mobile is Incomplete" }]); return } 
+		else if( page.Form.Mobile.length > 11){ appAlert([{ message: "Mobile must be 11 digits" }]); return }
+
+		if (page.Form.Email.length == 0) { appAlert([{ message: "Email is required" }]); return }
+		if(!page.Form.Email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)) {
+			appAlert([{ message: "Email is invalid" }]); return
+		}
 
 		page.FormOne="dn", page.FormTwo="";
 	},
 	submit: function() {
+		if (page.Form.Username.length == 0) { appAlert([{ message: "Username is required" }]); return }
+		if (page.Form.Username.length < 3) { appAlert([{ message: "Username is too short" }]); return }
+
 		if (page.Form.Password.length < 3) { appAlert([{ message: "Password must be at least 4 chars" }]); return }
 		if (page.Form.ConfirmPassword.length < 3) { appAlert([{ message: "Confirm Password must be at least 4 chars" }]); return }
 		if (page.Form.Password !== page.Form.ConfirmPassword) { appAlert([{ message: "Password does not match" }]); return }
@@ -25,7 +35,7 @@ var page = { FormOne:"", FormTwo:"dn", Form: {Fullname:"",
 			var lStoploader = true;
 			if (response.Body !== null) {
 				if (response.Body.Redirect !== null &&  response.Body.Redirect !== "") {
-					
+
 					lStoploader = false;
 					m.request({ method: 'POST', url: response.Body.Redirect, data: page.Form, }).then(function(responseSub) {
 						var lStoploaderSub = true;
@@ -75,13 +85,20 @@ var page = { FormOne:"", FormTwo:"dn", Form: {Fullname:"",
 											oninput: m.withAttr("value",function(value) {page.Form.Fullname = value}),
 											onkeyup: function(event) {if(event.key=="Enter"){page.gotoTwo}}
 										})}
-
 										<div class="cf mv2"></div>
-
-										{m("input",{ placeholder: "Username", type:"text", class: "red w-100 ba b--light-gray bg-secondary br1 pa3 f6",
-											oninput: m.withAttr("value",function(value) {page.Form.Username = value}),
+										{m("input",{ placeholder: "Mobile", type:"tel", class: "red w-100 ba b--light-gray bg-secondary br1 pa3 f6",
+											oninput: m.withAttr("value",function(value) {page.Form.Mobile = value}),
 											onkeyup: function(event) {if(event.key=="Enter"){page.gotoTwo}}
 										})}
+										<div class="cf mv2"></div>
+										{m("input",{ placeholder: "Email", type:"email", class: "red w-100 ba b--light-gray bg-secondary br1 pa3 f6",
+											oninput: m.withAttr("value",function(value) {page.Form.Email = value}),
+											onkeyup: function(event) {if(event.key=="Enter"){page.gotoTwo}}
+										})}
+
+
+
+
 
 										<div class="cf mv1"></div>
 
@@ -93,6 +110,11 @@ var page = { FormOne:"", FormTwo:"dn", Form: {Fullname:"",
 
 
 									<span class={"cf w-100 "+page.FormTwo}>
+										{m("input",{ placeholder: "Username", type:"text", class: "red w-100 ba b--light-gray bg-secondary br1 pa3 f6",
+											oninput: m.withAttr("value",function(value) {page.Form.Username = value}),
+											onkeyup: function(event) {if(event.key=="Enter"){page.gotoTwo}}
+										})}
+										<div class="cf mv2"></div>
 										{m("input",{ placeholder: "Enter Password", type:"password", class: "red w-100 ba b--light-gray bg-secondary br1 pa3 f6",
 											oninput: m.withAttr("value",function(value) {page.Form.Password = value}),
 											onkeyup: function(event) {if(event.key=="Enter"){page.gotoThree}}

@@ -68,7 +68,7 @@ var menu = {
 				</div>
 
 
-				<nav class="w-100 menuCloudBG dark-red shadow-4 z-5 cf dark-gray " style="height:53px;" onclick={menu.toggle} >
+				<nav class="w-100 bg-secondary dark-red shadow-4 z-5 cf dark-gray " style="height:53px;" onclick={menu.toggle} >
 					<Icons id="menuBtn" name="menu" class="pv2 ph1 h1 dib ma2 dim"/>
 					<img alt=""  class="absolute pt2" src="../../assets/img/logo.png" style="max-height:30px;"/>
 				</nav>

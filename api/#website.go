@@ -232,7 +232,8 @@ func apiWebsiteSignup(httpRes http.ResponseWriter, httpReq *http.Request) {
 
 	var formStruct struct {
 		Username, Password,
-		Fullname string
+		Fullname, Email, Mobile,
+		Description string
 	}
 
 	err := json.NewDecoder(httpReq.Body).Decode(&formStruct)
@@ -269,6 +270,9 @@ func apiWebsiteSignup(httpRes http.ResponseWriter, httpReq *http.Request) {
 				bucketUser.Workflow = "enabled"
 				bucketUser.Fullname = formStruct.Fullname
 				bucketUser.Username = formStruct.Username
+				bucketUser.Email = formStruct.Email
+				bucketUser.Mobile = formStruct.Mobile
+				bucketUser.Description = formStruct.Description
 				bucketUser.FailedMax = 3
 
 				hash, _ := bcrypt.GenerateFromPassword([]byte(formStruct.Password), bcrypt.DefaultCost)
