@@ -9,13 +9,13 @@ var page = {
 		return (
 			<section>
 				<div id="appAlert"></div>
-				<section class="flex-ns items-center">
+				<section class="flex-ns items-center pv4">
 
-					<div class="mw6 ph5 ">
+					<div class="ph5 ">
 						<img src="../../../assets/img/appimage.png"/>
 					</div>
 					<div class="tc tl-ns ph3">
-						<h1 class="f3 f2-l fw3 mb3 mt4 mt0-ns"><b>Password Delay</b> Intelligence Algorithms.</h1>
+						<h1 class="f3 f2-l fw3 mb3 mt4 mt0-ns"><label class="fw6">Password Delay</label> Intelligence Algorithms.</h1>
 						<h2 class="f5 f4-l fw3 mb4 mb5-l lh-title">
 							A demo application demonstrating close procedure
 							crypto-analysis and fourth tier security development

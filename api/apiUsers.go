@@ -1,6 +1,7 @@
 package api
 
 import (
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -264,6 +265,9 @@ func apiUserGet(httpRes http.ResponseWriter, httpReq *http.Request) {
 				statusMessage = err.Error()
 			} else {
 				if len(usersList) > 0 {
+					if len(usersList[0].Image) > 3 {
+						usersList[0].Image += "?" + strings.ToLower(utils.RandomString(3))
+					}
 
 					statusBody = apiUserStruct{
 						ID:        usersList[0].ID,
@@ -361,6 +365,27 @@ func apiUserPost(httpRes http.ResponseWriter, httpReq *http.Request) {
 			}
 
 			if statusMessage == "" {
+
+				if !strings.HasPrefix(formStruct.Image, "data:image/") {
+					formStruct.Image = ""
+				} else {
+					base64Bytes, errNew := base64.StdEncoding.DecodeString(
+						strings.Split(formStruct.Image, "base64,")[1])
+
+					if base64Bytes != nil && errNew == nil {
+						fileExt, fileType := utils.GetFileExt(formStruct.Image[:20])
+
+						if fileExt != "" {
+							fileName := fmt.Sprintf("dp-%s%s", utils.RandomString(12), fileExt)
+							formStruct.Image = utils.SaveFile(fileName, fileType, base64Bytes)
+						}
+					}
+				}
+
+				if formStruct.Image != "" {
+					bucketUser.Image = formStruct.Image
+				}
+
 				bucketUser.Updatedby = uint64(claims["ID"].(float64))
 				err = bucketUser.Create(&bucketUser)
 				if err != nil {

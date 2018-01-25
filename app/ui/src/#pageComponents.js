@@ -21,9 +21,9 @@ export var pageFormButton = {view: function(vnode) {return(
 
 export var pageSearchForm = {view: function(vnode) {return(
 	<p class="cf f6 ph2 pv2">
-		<input type="text" class="fl pa2 mb2 w-100 mr2-ns w-auto-ns dib ba b--silver" id="searchText" onkeyup={vnode.attrs.searchForm} placeholder="Search" />
+		<input type="text" class="fl pa2 bg-white br2 mb2 w-100 mr2-ns w-auto-ns dib ba b--silver" id="searchText" onkeyup={vnode.attrs.searchForm} placeholder="Search" />
 		<span class="fl dib">
-			<select class="bn mt2 ba0 bg-light-gray" id="searchField" onchange={vnode.attrs.searchForm}>
+			<select class="bn mt2 ba0 bg-white" id="searchField" onchange={vnode.attrs.searchForm}>
 				<option value="">*by field*</option>
 				{vnode.attrs.searchFields}
 			</select>
@@ -51,7 +51,7 @@ export var pageSearchList = {view: function(vnode) {return(
 						</th>
 					</tr>
 				</thead>
-				<tbody class="">
+				<tbody class="bg-white">
 					{vnode.attrs.searchList}
 				</tbody>
 			</table>
@@ -62,13 +62,13 @@ export var pageSearchList = {view: function(vnode) {return(
 
 
 export var getPageSearchListItem = {view: function(vnode) {return(
-	<tr class="stripe-dark">
-		<td class="pa2 pr0">
-			<span class="hover-green pointer" onclick={vnode.attrs.View}>
+	<tr class="">
+		<td class="pa2 pr0 bb b--washed-red">
+			<span class="hover-dark-red pointer" onclick={vnode.attrs.View}>
 				<b>{vnode.attrs.POS}</b> - {vnode.attrs.Details}
 			</span>
 
-			<small style="font-size:60%" class="fr pointer hover-orange truncate" onclick={vnode.attrs.Edit}>
+			<small style="font-size:80%" class="fr pr2 pointer hover-dark-red truncate" onclick={vnode.attrs.Edit}>
 				{vnode.attrs.Date}
 			</small>
 		</td>

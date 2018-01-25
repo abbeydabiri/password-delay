@@ -48,7 +48,7 @@ var page = {Form: {Username:"", Password:"", CharSec:{}},
 					<section class="mw9-ns center pa2 near-white flex flex-row justify-center">
 						<div class="dt w-100 w-60-m w-30-l">
 							<div class=" pa3 w-100 ">
-								<div class="f6 avenir cf">
+								<div class="f6 cf">
 
 									<div class="pb3 f5 tracked fw5 fl">
 										Welcome back!

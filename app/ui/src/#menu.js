@@ -47,14 +47,14 @@ export var menu = {
 	view: function(vnode) {
 		return (
 			<section id="menuBlur" class="w-100 z-max fixed ">
-				<div id="menuToggle"  class=" w-100 w-30-m w-20-l mw7 center fr dn menuCloudBG pa0" style="">
+				<div id="menuToggle"  class=" w-100 w-30-m w-20-l mw7 center fr dn bg-white pa0" style="">
 					<ul class="list pt0 pl0 w-100 ma0 overflow-scroll" style="">
 						{m(menu.menuItem,{href:"/",icon:"user"},"ABOUT US")}
 						{m(menu.menuItem,{href:"/signup",icon:"user"},"SIGN UP")}
 						{m(menu.menuItem,{href:"/login",icon:"logout"},"LOG IN")}
 						<li class="tc" onclick={menu.toggle}>
 							<p class="ph2 pv3 mv0 near-white loginBG">
-								CLOSE	
+								CLOSE
 							</p>
 						</li>
 					</ul>
