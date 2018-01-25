@@ -15,7 +15,7 @@ var page = {
 						<img src="../../../assets/img/appimage.png"/>
 					</div>
 					<div class="tc tl-ns ph3">
-						<h1 class="f3 f2-l fw3 mb3 mt4 mt0-ns"><b>PDIA</b> - Password Delay Intelligence Algorithms.</h1>
+						<h1 class="f3 f2-l fw3 mb3 mt4 mt0-ns"><b>Password Delay</b> Intelligence Algorithms.</h1>
 						<h2 class="f5 f4-l fw3 mb4 mb5-l lh-title">
 							A demo application demonstrating close procedure
 							crypto-analysis and fourth tier security development

@@ -115,48 +115,56 @@ func apiWebsiteLogin(httpRes http.ResponseWriter, httpReq *http.Request) {
 				lValid = false
 			}
 
+			if User.Workflow != "enabled" {
+				lValid = false
+			}
+
 			if !lValid {
 				User.Failed++
-				if User.FailedMax < User.Failed {
-					User.Workflow = "failed-login"
+				if User.FailedMax <= User.Failed {
+					User.Failed = User.FailedMax
+					if User.Workflow == "enabled" {
+						User.Workflow = "blocked"
+						statusMessage = fmt.Sprintf("User account blocked - too many failed logins")
+					}
+				} else {
+					statusMessage = fmt.Sprintf("%v attempts left", User.FailedMax-User.Failed)
 				}
 				User.Create(&User)
-				return
-			}
-			//All Seems Clear, Validate User Password and Generate Token
+			} else {
+				//All Seems Clear, Validate User Password and Generate Token
+				User.Failed = uint64(0)
+				User.Create(&User)
 
-			User.Failed = uint64(0)
-			User.Create(&User)
+				// set our claims
+				jwtClaims := jwt.MapClaims{}
+				jwtClaims["ID"] = User.ID
+				jwtClaims["Fullname"] = User.Fullname
+				jwtClaims["Username"] = User.Username
+				jwtClaims["Email"] = User.Email
+				jwtClaims["Mobile"] = User.Mobile
 
-			// set our claims
-			jwtClaims := jwt.MapClaims{}
-			jwtClaims["ID"] = User.ID
-			jwtClaims["Fullname"] = User.Fullname
-			jwtClaims["Username"] = User.Username
-			jwtClaims["Email"] = User.Email
-			jwtClaims["Mobile"] = User.Mobile
-
-			statusBody["Redirect"] = "/dashboard"
-			if User.IsAdmin {
-				jwtClaims["IsAdmin"] = User.IsAdmin
-				statusBody["Redirect"] = "/admin"
-			}
-
-			cookieExpires := time.Now().Add(time.Hour * 24 * 14) // set the expire time
-			jwtClaims["exp"] = cookieExpires.Unix()
-
-			if jwtToken, err := utils.GenerateJWT(jwtClaims); err == nil {
-				cookieMonster := &http.Cookie{
-					Name: config.Get().COOKIE, Value: jwtToken, Expires: cookieExpires, Path: "/",
+				statusBody["Redirect"] = "/dashboard"
+				if User.IsAdmin {
+					jwtClaims["IsAdmin"] = User.IsAdmin
+					statusBody["Redirect"] = "/admin"
 				}
-				http.SetCookie(httpRes, cookieMonster)
-				httpReq.AddCookie(cookieMonster)
 
-				statusCode = http.StatusOK
-				statusMessage = "User Verified"
+				cookieExpires := time.Now().Add(time.Hour * 24 * 14) // set the expire time
+				jwtClaims["exp"] = cookieExpires.Unix()
+
+				if jwtToken, err := utils.GenerateJWT(jwtClaims); err == nil {
+					cookieMonster := &http.Cookie{
+						Name: config.Get().COOKIE, Value: jwtToken, Expires: cookieExpires, Path: "/",
+					}
+					http.SetCookie(httpRes, cookieMonster)
+					httpReq.AddCookie(cookieMonster)
+
+					statusCode = http.StatusOK
+					statusMessage = "User Verified"
+				}
+				//All Seems Clear, Validate User Password and Generate Token
 			}
-
-			//All Seems Clear, Validate User Password and Generate Token
 		}
 	}
 
@@ -215,8 +223,6 @@ func apiWebsiteForgot(httpRes http.ResponseWriter, httpReq *http.Request) {
 }
 
 func apiWebsiteSignup(httpRes http.ResponseWriter, httpReq *http.Request) {
-
-	println("Osha Prara!!!")
 
 	httpRes.Header().Set("Content-Type", "application/json")
 
