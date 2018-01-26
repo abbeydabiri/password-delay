@@ -7,20 +7,14 @@ import {footerLink} from './#footer.js';
 
 import Icons from '../#icons.js';
 import {pageTitle} from '../#pageComponents.js';
-import {defaultImage} from '../#pageFunctions.js';
-import {displayImage} from '../#pageFunctions.js';
 
-import {switchPageMode} from '../#pageFunctions.js';
+
 import {saveForm} from '../#pageFunctions.js';
 
 
 
 var page = {
 	Url: "/api/profile", Form: {},
-	viewForm:function(){
-		switchPageMode(page, "view");
-		m.render(document.getElementById('appMenu'), m(page.viewHeader));
-	},
 	saveForm:function(){ saveForm(page); },
 	oninit: function() {
 		m.render(document.getElementById('appMenu'), m(page.viewHeader));
@@ -36,7 +30,7 @@ var page = {
 			m(Icons,{name:"check",class:"absolute dark-red h1 dim right-0 top-0 pa3",onclick:page.saveForm}),
 		])
 	)}},
-	oncreate:function(){ switchPageMode(page, "view"); defaultImage("Image")},
+	oncreate:function(){ },
 	view:function(){
 	return  (
 		<section class="">
@@ -85,10 +79,9 @@ var page = {
 			</div>
 
 
+			{m("div",{class:"cf w-100 pv5"})}
 
-			{m("div",{class:"cf w-100 mv2"})}
-
-			{m("nav",{class:" w-100 z-max fixed bg-primary bottom-0 tc center"},[
+			{m("nav",{class:"avenir w-100 z-max fixed bg-primary bottom-0 tc center"},[
 				m(footerItem,{color:"near-white hover-bg-white hover-red", href:"/dashboard/profile",icon:"person"},"My Profile"),
 				m(footerItem,{color:"red bg-white", href:"/dashboard/password",icon:"lock-locked"},"Set Password"),
 				m(footerItem,{color:"near-white hover-bg-white hover-red", href:"/dashboard/history",icon:"spreadsheet"},"Security Log"),

@@ -80,6 +80,7 @@ func apiHitSearch(httpRes http.ResponseWriter, httpReq *http.Request) {
 				searchList[pos].ID = result.ID
 				searchList[pos].Date = JSONTime(result.Createdate)
 				searchList[pos].Details = fmt.Sprintf("%v", result.Title)
+				searchList[pos].SubDetails = fmt.Sprintf("%v", result.Description)
 			}
 
 			statusCode = http.StatusOK

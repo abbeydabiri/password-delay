@@ -1,35 +1,37 @@
 import m from 'mithril';
 
-import {menu} from './#menu.js';
 import {footerItem} from './#footer.js';
 import {footerLink} from './#footer.js';
 
-
 import Icons from '../#icons.js';
-import {pageTitle} from '../#pageComponents.js';
-import {defaultImage} from '../#pageFunctions.js';
-import {displayImage} from '../#pageFunctions.js';
+import {appAlert} from '../#utils.js';
+import {checkRedirect} from '../#utils.js';
 
+import {getData} from '../#pageFunctions.js';
+import {defaultImage} from '../#pageFunctions.js';
+
+import {pageSearchList} from '../#pageComponents.js';
 import {switchPageMode} from '../#pageFunctions.js';
-import {saveForm} from '../#pageFunctions.js';
 
 
 
 var page = {
 	Url: "/api/profile", Form: {},
 	lastActivityComponent : { view:function(vnode){ return(
-		<div class="cf mv3 f6">
+		<div class="cf f6">
 			{vnode.attrs.lastActivityList}
 		</div>
 	)}},
 	lastActivityItem: {view: function(vnode) {return(
 		<div class="pa2 bb b--washed-red">
-			<span class="hover-dark-red pointer" onclick={vnode.attrs.View}>
+			<small style="font-size:80%" class="truncate">
+				{vnode.attrs.Date}
+			</small>
+			<span class="db truncate hover-dark-red pointer" onclick={vnode.attrs.View}>
 				<b>{vnode.attrs.POS}</b> - {vnode.attrs.Details}
 			</span>
-
-			<small style="font-size:80%" class="fr pr2 pointer hover-dark-red truncate" onclick={vnode.attrs.Edit}>
-				{vnode.attrs.Date}
+			<small style="font-size:80%" class="truncate db">
+				{vnode.attrs.SubDetails}
 			</small>
 		</div>
 	)}},
@@ -57,8 +59,9 @@ var page = {
 				var POS = 1;
 				response.Body.map(function(result) {
 					if (result.ID > 0) {
+						POS++
 						lastActivityList.push(m(page.lastActivityItem,
-							{POS: POS++, Details: result.Details,Date: result.Date,}
+							{Details: result.Details, SubDetails: result.SubDetails, Date: result.Date,}
 						))
 					}
 				})
@@ -83,10 +86,9 @@ var page = {
 				m(Icons,{name:"dashboard",class:"absolute dark-red h1 dim left-0 top-0 pa3"})
 			]),
 			m("p", {class:"avenir"}, "SECURITY LOG"),
-			m(Icons,{name:"check",class:"absolute dark-red h1 dim right-0 top-0 pa3",onclick:page.saveForm}),
 		])
 	)}},
-	oncreate:function(){ switchPageMode(page, "view"); defaultImage("Image")},
+	oncreate:function(){ page.getData();defaultImage("Image")},
 	view:function(){
 	return  (
 		<section class="">
@@ -96,11 +98,11 @@ var page = {
 			<div class="bg-primary">
 				<div class="cf center w-100 w-90-m w-40-l pv2 avenir near-white">
 
-					<div class="dark-red ph2 pt1 pb2">
-						<div class="cf center w-100 w-90-m w-40-l pv2 avenir near-white">
+					<div class="dark-red ph2">
+						<div class="cf center w-100 w-90-m w-40-l  avenir near-white">
 
 							<div class="tc w-100 pv2">
-								{m("img",{class: "br-100 pa1 ba b--white-10 h4 w4 pointer", style:"", id: "image", src:page.Form.Image,
+								{m("img",{class: "br-100 pa1 ba b--white-10 h4 w4 pointer", style:"", id: "Image", src:page.Form.Image,
 									onerror: m.withAttr("id",function(id){defaultImage(id)})
 								})}
 								<p class="mv1 fw4"> {page.Form.Fullname} </p>
@@ -112,21 +114,21 @@ var page = {
 				</div>
 			</div>
 
-			<div class="cf center w-100 w-90-m w-40-l avenir near-white ">
+			<div class="cf center ph2 w-100 w-90-m w-40-l avenir near-white ">
 				<div class="cf mt2 bg-white-10 br2 br--top pt1 bg-primary">
 					<span class="flex pa1 items-center f6 white-80">
 						<Icons name="spreadsheet" class="h1 pr1"/>
 						Security Log
 					</span>
 				</div>
-				<div class="cf pv2 ph1 f6 bg-white-90 black-80">
+				<div class="cf ph1 f6 bg-white-90 black-80">
 					{page.lastActivityList}
 				</div>
 			</div>
 
-			{m("div",{class:"cf w-100 mv2"})}
+			{m("div",{class:"cf w-100 pv5"})}
 
-			{m("nav",{class:" w-100 z-max fixed bg-primary bottom-0 tc center"},[
+			{m("nav",{class:"avenir w-100 z-max fixed bg-primary bottom-0 tc center"},[
 				m(footerItem,{color:"near-white hover-bg-white hover-red", href:"/dashboard/profile",icon:"person"},"My Profile"),
 				m(footerItem,{color:"near-white hover-bg-white hover-red", href:"/dashboard/password",icon:"lock-locked"},"Set Password"),
 				m(footerItem,{color:"red bg-white", href:"/dashboard/history",icon:"spreadsheet"},"Security Log"),

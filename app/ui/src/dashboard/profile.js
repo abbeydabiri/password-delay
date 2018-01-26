@@ -102,7 +102,7 @@ var page = {
 						</div>
 					</div>
 
-					<div class="cf w-100" style="padding-bottom:74px">
+					<div class="cf w-100" style="">
 						<div class="fl w-100 pa2"> <small class="gray b">About Me:</small>
 							{m("textarea",{ class: "w-100 h3 tl pa2 ba b--black-10", disabled: page.editMode, value:page.Form.Description,
 								onchange: m.withAttr("value",function(value) {page.Form.Description = value}) })}
@@ -113,7 +113,7 @@ var page = {
 			</section>
 
 
-			{m("div",{class:"cf w-100 mv2"})}
+			{m("div",{class:"cf w-100 pv5"})}
 
 			{m("nav",{class:"avenir w-100 z-max fixed bg-primary bottom-0 tc center"},[
 				m(footerItem,{color:"red bg-white", href:"/dashboard/profile",icon:"person"},"My Profile"),
