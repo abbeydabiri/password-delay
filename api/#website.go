@@ -97,6 +97,14 @@ func apiWebsiteLogin(httpRes http.ResponseWriter, httpReq *http.Request) {
 	statusCode := http.StatusInternalServerError
 	statusMessage := "Invalid Username or Password"
 
+	bucketHit := buckets.Hits{}
+	bucketHit.Code = formStruct.Username
+	bucketHit.Title = fmt.Sprintf("User Login: [%v] - ", formStruct.Username)
+
+	bucketHit.UserAgent = httpReq.UserAgent()
+	bucketHit.IPAddress = httpReq.RemoteAddr
+	bucketHit.Workflow = "enabled"
+
 	err := json.NewDecoder(httpReq.Body).Decode(&formStruct)
 	if err == nil {
 		users, _ := buckets.Users{}.GetFieldValue("Username", formStruct.Username)
@@ -168,6 +176,9 @@ func apiWebsiteLogin(httpRes http.ResponseWriter, httpReq *http.Request) {
 		}
 	}
 
+	bucketHit.Title = fmt.Sprintf("%v %v", bucketHit.Title, statusMessage)
+	bucketHit.Create(&bucketHit)
+
 	json.NewEncoder(httpRes).Encode(Message{
 		Code:    statusCode,
 		Message: statusMessage,
@@ -236,6 +247,14 @@ func apiWebsiteSignup(httpRes http.ResponseWriter, httpReq *http.Request) {
 		Description string
 	}
 
+	bucketHit := buckets.Hits{}
+	bucketHit.Code = formStruct.Username
+	bucketHit.Title = fmt.Sprintf("User Signup: [%v] -", formStruct.Username)
+
+	bucketHit.UserAgent = httpReq.UserAgent()
+	bucketHit.IPAddress = httpReq.RemoteAddr
+	bucketHit.Workflow = "enabled"
+
 	err := json.NewDecoder(httpReq.Body).Decode(&formStruct)
 	if err != nil {
 		statusMessage = "Error Decoding Form Values " + err.Error()
@@ -283,6 +302,12 @@ func apiWebsiteSignup(httpRes http.ResponseWriter, httpReq *http.Request) {
 			//All Seems Clear, Create New User Now Now
 		}
 	}
+
+	bucketHit.Title = fmt.Sprintf("%v %v", bucketHit.Title, statusMessage)
+	bucketHit.Description = fmt.Sprintf("User Signup: [%v] - Name: [%v] with - Mobile [%v] - Email [%v] signed up",
+		formStruct.Username, formStruct.Fullname, formStruct.Mobile, formStruct.Email)
+
+	bucketHit.Create(&bucketHit)
 
 	json.NewEncoder(httpRes).Encode(Message{
 		Code:    statusCode,

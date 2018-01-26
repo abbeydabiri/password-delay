@@ -7,46 +7,121 @@ import Icons from  '../#icons.js';
 import {appAlert} from '../#utils.js';
 import {checkRedirect} from '../#utils.js';
 
+import {getData} from '../#pageFunctions.js';
 import {defaultImage} from '../#pageFunctions.js';
-import {switchPageMode} from '../#pageFunctions.js';
+
+import {pageSearchList} from '../#pageComponents.js';
 
 
 var page = {
 	Url: "/api/dashboard", Form: {}, searchXHR: null,
-	oninit_NOMENU:function(){ m.render(document.getElementById('appMenu'), m(menu)) },
+	lastActivityComponent : { view:function(vnode){ return(
+		<div class="cf mv3 f6">
+			{vnode.attrs.lastActivityList}
+		</div>
+	)}},
+	lastActivityItem: {view: function(vnode) {return(
+		<div class="pa2 bb b--washed-red">
+			<span class="hover-dark-red pointer" onclick={vnode.attrs.View}>
+				<b>{vnode.attrs.POS}</b> - {vnode.attrs.Details}
+			</span>
 
-	oncreate:function(){switchPageMode(page, "view");},
+			<small style="font-size:80%" class="fr pr2 pointer hover-dark-red truncate" onclick={vnode.attrs.Edit}>
+				{vnode.attrs.Date}
+			</small>
+		</div>
+	)}},
+	getData: function(){
+		return m.request({ method: 'GET', url: page.Url, data: {id: page.Form.ID}, }).then(function(response) {
+			checkRedirect(response);
+			if (response.Code == 200) {
+				if (response.Body !== null && response.Body !== undefined ){
+					page.Form = response.Body;
+					page.lastActivity();
+				}
+			}
+			if (response.Message !== null && response.Message !== undefined && response.Message !== "" ){
+				appAlert([{message: response.Message}]);
+			}
+		}).catch(function(error) {
+			appAlert([{message: "Network Connectivity Error \n Please Check Your Network Access \n"+error, }]);
+		});
+	},
+	lastActivity: function(){
+		var lastActivityList = [];
+		m.request({ method: 'GET', url: "/api/hits/search?limit=5&field=code&search="+page.Form.Username, }).then(function(response) {
+			checkRedirect(response);
+			if (response.Code == 200) { if (response.Body !== null && response.Body !== undefined ){
+				var POS = 1;
+				response.Body.map(function(result) {
+					if (result.ID > 0) {
+						lastActivityList.push(m(page.lastActivityItem,
+							{POS: POS++, Details: result.Details,Date: result.Date,}
+						))
+					}
+				})
+			}}
+			page.lastActivityList = m(page.lastActivityComponent,{lastActivityList: lastActivityList});
+
+			if (response.Message !== null && response.Message !== undefined && response.Message !== "" ){
+				appAlert([{message: response.Message}]);
+			}
+		}).catch(function(error) {
+			appAlert([{ message: "Network Connectivity Error \n Please Check Your Network Access", }]);
+		});
+	},
+	oninit:function(){page.lastActivityList = m(page.lastActivityComponent);},
+	oncreate:function(){page.getData()},
 	view:function(vnode){
 	return  (
 		<section class="bg-primary min-vh-100">
 
 			<div id="appAlert"></div>
 
-			<div class="dark-red ph2 pt1 pb3 bg-primary">
-				<div class="cf center w-100 w-50-m w-25-l pv2 avenir near-white">
+			<div class="dark-red ph2 pt1 pb3 ">
+				<div class="cf center w-100 w-90-m w-40-l pv2 avenir near-white">
 
 					<div class="tc w-100 pv2">
 						{m("img",{class: "br-100 pa1 ba b--white-10 h4 w4 pointer", style:"", id: "image", src:page.Form.Image,
 							onerror: m.withAttr("id",function(id){defaultImage(id)})
 						})}
-						<p class="mv1"> {page.Form.Fullname} </p>
-						<small class="i">{page.Form.Username}</small>
+						<p class="mv1 fw4"> {page.Form.Fullname} </p>
+						<small class="">{page.Form.Username}</small>
 					</div>
 
-					<div class="cf bg-white-10 br2 pt1">
-						<span class="flex pa1 items-center f6 bb b--white-30">
-							<Icons name="person" class="h1 pr2"/>
-							Private Details
+					<div class="cf mt2 bg-white-10 br2 pt1">
+						<span class="flex pa1 items-center f6 white-80">
+							<Icons name="envelope-closed" class="h1 pr1"/>
+							Contacts
 						</span>
 					</div>
-
-					<div class="cf mv2 f6">
+					<div class="cf pv2 ph1 f6 bg-white-90 black-80">
 						<span class="fl">{page.Form.Mobile}</span>
 						<span class="fr">{page.Form.Email}</span>
 					</div>
-					<div class="cf mv3 f6">
-						<p class="i f7 bb b--white-10">About Me</p>
+
+					{m("div",{class:"cf w-100 mv3"})}
+
+					<div class="cf mt2 bg-white-10 br2 pt1">
+						<span class="flex pa1 items-center f6 white-80">
+							<Icons name="person" class="h1 pr1"/>
+							About
+						</span>
+					</div>
+					<div class="cf pv2 ph1 f6 bg-white-90 black-80">
 						{page.Form.Description}
+					</div>
+
+					{m("div",{class:"cf w-100 mv3"})}
+
+					<div class="cf mt2 bg-white-10 br2 pt1">
+						<span class="flex pa1 items-center f6 white-80">
+							<Icons name="spreadsheet" class="h1 pr1"/>
+							Last Activity
+						</span>
+					</div>
+					<div class="cf pv2 ph1 f6 bg-white-90 black-80">
+						{page.lastActivityList}
 					</div>
 
 				</div>
@@ -55,7 +130,7 @@ var page = {
 
 			{m("div",{class:"cf w-100 mv2"})}
 
-			{m("nav",{class:"w-100 z-max fixed bg-primary bottom-0 tc center"},[
+			{m("nav",{class:"avenir w-100 z-max fixed bg-primary bottom-0 tc center"},[
 				m(footerItem,{color:"near-white hover-bg-white hover-red", href:"/dashboard/profile",icon:"person"},"My Profile"),
 				m(footerItem,{color:"near-white hover-bg-white hover-red", href:"/dashboard/password",icon:"lock-locked"},"Set Password"),
 				m(footerItem,{color:"near-white hover-bg-white hover-red", href:"/dashboard/history",icon:"spreadsheet"},"Security Log"),

@@ -29,57 +29,6 @@ func apiHandlerHit(middlewares alice.Chain, router *Router) {
 	router.Post("/api/hits", middlewares.ThenFunc(apiHitPost))
 	router.Get("/api/hits", middlewares.ThenFunc(apiHitGet))
 	router.Get("/api/hits/search", middlewares.ThenFunc(apiHitSearch))
-	router.Get("/api/hits/logs", middlewares.ThenFunc(apiHitLogs))
-}
-
-func apiHitLogs(httpRes http.ResponseWriter, httpReq *http.Request) {
-
-	httpRes.Header().Set("Content-Type", "application/json")
-
-	var statusBody interface{}
-	statusCode := http.StatusInternalServerError
-	statusMessage := ""
-
-	if claims := utils.VerifyJWT(httpRes, httpReq); claims == nil {
-		statusBody = map[string]string{"Redirect": "/"}
-	} else {
-
-		sCampaignID := strings.TrimSpace(httpReq.FormValue("cid"))
-		if sCampaignID == "" {
-			statusCode = http.StatusInternalServerError
-			statusMessage = "Error Campaign ID is required to load logs"
-		} else {
-			CampaignID, _ := strconv.ParseUint(sCampaignID, 0, 64)
-			searchResults, err := buckets.Hits{}.GetFieldValue("CampaignID", CampaignID)
-			if err != nil {
-				statusMessage = err.Error()
-			} else {
-
-				type searchDetail struct {
-					Workflow, IPAddress, Fingerprint,
-					UserAgent string
-
-					Date JSONTime
-				}
-				searchList := make([]searchDetail, len(searchResults))
-				for pos, result := range searchResults {
-					searchList[pos].Workflow = result.Workflow
-					searchList[pos].IPAddress = result.IPAddress
-					searchList[pos].UserAgent = result.UserAgent
-					searchList[pos].Fingerprint = result.Description
-					searchList[pos].Date = JSONTime(result.Createdate)
-				}
-				statusCode = http.StatusOK
-				statusBody = searchList
-			}
-		}
-	}
-
-	json.NewEncoder(httpRes).Encode(Message{
-		Code:    statusCode,
-		Body:    statusBody,
-		Message: statusMessage,
-	})
 }
 
 func apiHitSearch(httpRes http.ResponseWriter, httpReq *http.Request) {
@@ -110,10 +59,16 @@ func apiHitSearch(httpRes http.ResponseWriter, httpReq *http.Request) {
 			searchField = "Title"
 		}
 
+		nLimit := 100
+		sLimit := strings.TrimSpace(httpReq.FormValue("limit"))
+		if sLimit != "" {
+			nLimit, _ = strconv.Atoi(sLimit)
+		}
+
 		if err := config.Get().BoltHold.Bolt().View(func(tx *bolt.Tx) error {
 			err := config.Get().BoltHold.Find(&searchResults,
 				bolthold.Where(searchField).RegExp(
-					regexp.MustCompile(`(?im)`+searchText)).SortBy("ID").Reverse().Limit(100),
+					regexp.MustCompile(`(?im)`+searchText)).SortBy("ID").Reverse().Limit(nLimit),
 			)
 			return err
 		}); err != nil {

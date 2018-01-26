@@ -15,10 +15,7 @@ type Hits struct {
 	ID, IDSync, Createdby, Updatedby   uint64
 	Code, Title, Workflow, Description string
 	Createdate, Updatedate             time.Time
-
-	CampaignID uint64
-
-	Url, IPAddress, UserAgent string
+	Url, IPAddress, UserAgent          string
 }
 
 func (this Hits) bucketName() string {

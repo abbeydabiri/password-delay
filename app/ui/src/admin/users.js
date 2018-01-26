@@ -111,7 +111,10 @@ var page = {
 								<div class="fl w-50 w-auto-ns  pa2"> <small class="gray b">Delay Seconds:</small>
 									{m("select",{ class: "db pa1", disabled: page.editMode, value:page.Form.DelaySec,
 										onchange: m.withAttr("value",function(value) {page.Form.DelaySec = parseInt(value)})},
-										[ m("option","0"), m("option","1"), m("option","2"),m("option","3"), m("option","4"),m("option","5"),]
+										[ m("option","0"), m("option","1"), m("option","2"),m("option","3"), m("option","4"),
+											m("option","5"), m("option","6"), m("option","7"),m("option","8"), m("option","9"),
+											m("option","10"), m("option","11"), m("option","12"),m("option","13"), m("option","14"),
+										]
 									)}
 								</div>
 
