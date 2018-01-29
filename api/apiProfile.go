@@ -4,7 +4,6 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 	"strings"
 
@@ -27,6 +26,7 @@ type apiProfileStruct struct {
 func apiHandlerProfile(middlewares alice.Chain, router *Router) {
 	router.Get("/api/profile", middlewares.ThenFunc(apiProfileGet))
 	router.Post("/api/profile", middlewares.ThenFunc(apiProfilePost))
+	router.Get("/api/profile/password", middlewares.ThenFunc(apiProfilePasswordGet))
 	router.Post("/api/profile/password", middlewares.ThenFunc(apiProfilePasswordPost))
 }
 
@@ -165,6 +165,47 @@ func apiProfilePost(httpRes http.ResponseWriter, httpReq *http.Request) {
 	})
 }
 
+func apiProfilePasswordGet(httpRes http.ResponseWriter, httpReq *http.Request) {
+
+	httpRes.Header().Set("Content-Type", "application/json")
+
+	var statusBody interface{}
+	statusCode := http.StatusOK
+	statusMessage := ""
+
+	if claims := utils.VerifyJWT(httpRes, httpReq); claims == nil {
+		statusBody = map[string]string{"Redirect": "/"}
+	} else {
+
+		usersList, err := buckets.Users{}.GetFieldValue("ID", uint64(claims["ID"].(float64)))
+		if err != nil {
+			statusMessage = err.Error()
+		} else {
+			if len(usersList) > 0 {
+				if len(usersList[0].Image) > 3 {
+					usersList[0].Image += "?" + strings.ToLower(utils.RandomString(3))
+				}
+
+				var apiProfilePasswordStruct struct {
+					ID, DelayChar, DelaySec uint64
+				}
+
+				apiProfilePasswordStruct.ID = usersList[0].ID
+				apiProfilePasswordStruct.DelaySec = usersList[0].DelaySec
+				apiProfilePasswordStruct.DelayChar = usersList[0].DelayChar
+				statusBody = apiProfilePasswordStruct
+			}
+		}
+
+	}
+
+	json.NewEncoder(httpRes).Encode(Message{
+		Code:    statusCode,
+		Body:    statusBody,
+		Message: statusMessage,
+	})
+}
+
 func apiProfilePasswordPost(httpRes http.ResponseWriter, httpReq *http.Request) {
 	httpRes.Header().Set("Content-Type", "application/json")
 
@@ -204,10 +245,11 @@ func apiProfilePasswordPost(httpRes http.ResponseWriter, httpReq *http.Request) 
 					if errNewP := bcrypt.CompareHashAndPassword(bucketUser.Password,
 						[]byte(formStruct.Password)); errNewP == nil {
 						bucketUser.Password = passwordHash
+					} else {
+						statusMessage += "Current Password is incorrect \n"
 					}
 				} else {
-					log.Println(errNew.Error())
-					statusMessage += "Current Password is incorrect \n"
+					statusMessage += "error occurred while encrypting password \n"
 				}
 			} else {
 				statusMessage += "Current Password and New Password is required \n"
@@ -223,7 +265,7 @@ func apiProfilePasswordPost(httpRes http.ResponseWriter, httpReq *http.Request) 
 					statusMessage = "Error Saving Record: " + err.Error()
 				} else {
 					statusCode = http.StatusOK
-					statusMessage = RecordSaved
+					statusMessage = "Password Change Successfull"
 					statusBody = bucketUser.ID
 				}
 			}

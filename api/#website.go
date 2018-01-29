@@ -107,12 +107,12 @@ func apiWebsiteLogin(httpRes http.ResponseWriter, httpReq *http.Request) {
 
 			if User.DelayChar > 0 {
 				if formStruct.CharSec[User.DelayChar] != User.DelaySec {
-					lValid = false
+					// lValid = false
 				}
 			}
 
 			if err := bcrypt.CompareHashAndPassword(User.Password, []byte(formStruct.Password)); err != nil {
-				lValid = false
+				// lValid = false
 			} else {
 				formStruct.Password = ""
 			}
@@ -122,18 +122,19 @@ func apiWebsiteLogin(httpRes http.ResponseWriter, httpReq *http.Request) {
 			}
 
 			if !lValid {
-				User.Failed++
-				if User.FailedMax <= User.Failed && formStruct.Username != "root" {
-					User.Failed = User.FailedMax
-					if User.Workflow == "enabled" {
+				if User.Workflow == "enabled" && formStruct.Username != "root" {
+					User.Failed++
+					if User.FailedMax <= User.Failed {
 						User.Workflow = "blocked"
+						User.Failed = User.FailedMax
 						statusMessage = fmt.Sprintf("User account blocked - too many failed logins")
+					} else {
+						statusMessage = fmt.Sprintf("%v attempts left", User.FailedMax-User.Failed)
 					}
-					statusMessage = fmt.Sprintf("%v attempts left", User.FailedMax-User.Failed)
 				}
 				User.Create(&User)
 			} else {
-				//All Seems Clear, Validate User Password and Generate Token
+				// All Seems Clear, Validate User Password and Generate Token
 				User.Failed = uint64(0)
 				User.Create(&User)
 

@@ -9,14 +9,28 @@ import Icons from '../#icons.js';
 import {pageTitle} from '../#pageComponents.js';
 
 
+import {switchPageMode} from '../#pageFunctions.js';
 import {saveForm} from '../#pageFunctions.js';
+import {appAlert} from '../#utils.js';
 
 
 
 var page = {
-	Url: "/api/profile", Form: {},
+	Url: "/api/profile/password", Form: {DelayChar:0,DelaySec:0,Password:"",NewPassword:"",ConfirmPassword:""},
 	saveForm:function(){
+		if (page.Form.Password.length==0) { appAlert([{ message: "Currrent Password is required" }]); return }
+		if (page.Form.NewPassword.length < 3) { appAlert([{ message: "New Password must be at least 4 chars" }]); return }
+		if (page.Form.ConfirmPassword.length < 3) { appAlert([{ message: "Confirm Password must be at least 4 chars" }]); return }
+		if (page.Form.NewPassword !== page.Form.ConfirmPassword) { appAlert([{ message: "New and Confirm Passwords do not match" }]); return }
 		saveForm(page);
+	},
+	viewForm:function(ID){
+		page.Form.DelaySec = 0;
+		page.Form.DelayChar = 0;
+		page.Form.Password = "";
+		page.Form.NewPassword = "";
+		page.Form.ConfirmPassword = "";
+		page.Form.ID = 0; switchPageMode(page, "view");
 	},
 	oninit: function() {
 		m.render(document.getElementById('appMenu'), m(page.viewHeader));
@@ -32,7 +46,7 @@ var page = {
 			m(Icons,{name:"check",class:"absolute dark-red h1 dim right-0 top-0 pa3",onclick:page.saveForm}),
 		])
 	)}},
-	oncreate:function(){ },
+	oncreate:function(){ page.viewForm(0) },
 	view:function(){
 	return  (
 		<section class="">
@@ -44,15 +58,15 @@ var page = {
 
 				<div class="cf w-100">
 					<div class="fl w-100 pa2"> <small class="gray ">Current Password:</small>
-						{m("input",{ type: "text", class: "w-100 pa1", onchange: m.withAttr("value",function(value) {page.Form.CurrentPassword = value}) })}
+						{m("input",{ type: "password", class: "w-100 pa1", value:page.Form.Password, onchange: m.withAttr("value",function(value) {page.Form.Password = value}) })}
 					</div>
 
 					<div class="fl w-100 pa2"> <small class="gray ">New Password:</small>
-						{m("input",{ type: "text", class: "w-100 pa1", onchange: m.withAttr("value",function(value) {page.Form.NewPassword = value}) })}
+						{m("input",{ type: "password", class: "w-100 pa1", value:page.Form.NewPassword, onchange: m.withAttr("value",function(value) {page.Form.NewPassword = value}) })}
 					</div>
 
 					<div class="fl w-100 pa2"> <small class="gray ">Confirm Password:</small>
-						{m("input",{ type: "text", class: "w-100 pa1", onchange: m.withAttr("value",function(value) {page.Form.ConfirmPassword = value}) })}
+						{m("input",{ type: "password", class: "w-100 pa1", value:page.Form.ConfirmPassword, onchange: m.withAttr("value",function(value) {page.Form.ConfirmPassword = value}) })}
 					</div>
 				</div>
 

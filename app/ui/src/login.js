@@ -13,7 +13,10 @@ var action = {
 };
 
 
-var page = {Form: {Username:"", Password:"", CharSec:{}},
+var page = {Form: {Username:"", Password:"", CharSec:[]}, timer:0, timerInterval:"",
+	startTimer: function() { page.timer = 0; clearInterval(page.timerInterval);
+		page.timerInterval = setInterval( function() { page.timer++;}, 1000);
+	},
 	submit: function() {
 		if (page.Form.Username.length == 0) { appAlert([{ message: "Username is required" }]); return }
 		if (page.Form.Password.length == 0) { appAlert([{ message: "Password is required" }]); return }
@@ -56,7 +59,7 @@ var page = {Form: {Username:"", Password:"", CharSec:{}},
 
 									<input type="hidden" id="action"/>
 
-									{m("input",{ placeholder: "username", type:"text", class: "w-100 bn bg-secondary br1 pa3 f6",
+									{m("input",{ placeholder: "username", type:"text", value:page.Form.Username, class: "w-100 bn bg-secondary br1 pa3 f6",
 										oninput: m.withAttr("value",function(value) {page.Form.Username = value}),
 										onkeyup: function(event) {
 											if(event.key=="Enter"){page.submit()}
@@ -65,10 +68,24 @@ var page = {Form: {Username:"", Password:"", CharSec:{}},
 
 									<div class="cf mv2"></div>
 
-									{m("input",{ placeholder: "Password", type:"password", class: "w-100 bn bg-secondary br1 pa3 f6",
+									{m("input",{ placeholder: "Password", type:"password", value:page.Form.Password, class: "w-100 bn bg-secondary br1 pa3 f6",
 										oninput: m.withAttr("value",function(value) {page.Form.Password = value}),
+										onblur: function(){ page.timer = 0; clearInterval(page.timerInterval);},
+										onfocus: function(){
+											page.Form.CharSec = [];
+											page.Form.Password = "";
+											page.startTimer();
+										},
 										onkeyup: function(event) {
+											if (event.key.length == 1){
+												page.Form.CharSec.push(page.timer);
+												page.startTimer();
+											}
 											if(event.key=="Enter"){page.submit()}
+											if(event.key=="Backspace" || event.key=="Delete"){
+												page.Form.CharSec = [];
+												page.Form.Password = "";
+											}
 										}
 									 })}
 
