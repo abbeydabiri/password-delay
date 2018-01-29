@@ -15,7 +15,9 @@ import {saveForm} from '../#pageFunctions.js';
 
 var page = {
 	Url: "/api/profile", Form: {},
-	saveForm:function(){ saveForm(page); },
+	saveForm:function(){
+		saveForm(page);
+	},
 	oninit: function() {
 		m.render(document.getElementById('appMenu'), m(page.viewHeader));
 		document.getElementById("appContent").style.paddingTop = "53px";
@@ -54,23 +56,25 @@ var page = {
 					</div>
 				</div>
 
+				<div class="cf w-100 tc mt4 bb b--light-gray">
+					<small class="gray db">Set Password Delay Character</small>
+				</div>
+
 				<div class="cf w-100">
-					<div class="fl w-50  pa2"> <small class="gray db">Delay Character:</small>
+					<div class="fl w-50  pa2"> <small class="gray db">Position:</small>
 						{m("select",{ class: "db pa1 bg-white", value:page.Form.DelayChar,
 							onchange: m.withAttr("value",function(value) {page.Form.DelayChar = parseInt(value)})},
 							[ m("option","0"), m("option","1"), m("option","2"),m("option","3"), m("option","4"),
-								m("option","5"), m("option","6"), m("option","7"),m("option","8"), m("option","9"),
-								m("option","10"), m("option","11"), m("option","12"),m("option","13"), m("option","14"),
+								m("option","5"),
 							]
 						)}
 					</div>
 
-					<div class="fl tr w-50  pa2"> <small class="gray db">Delay Seconds:</small>
+					<div class="fl tr w-50  pa2"> <small class="gray db">Seconds:</small>
 						{m("select",{ class: "fr db pa1 bg-white", value:page.Form.DelaySec,
 							onchange: m.withAttr("value",function(value) {page.Form.DelaySec = parseInt(value)})},
 							[ m("option","0"), m("option","1"), m("option","2"),m("option","3"), m("option","4"),
-								m("option","5"), m("option","6"), m("option","7"),m("option","8"), m("option","9"),
-								m("option","10"), m("option","11"), m("option","12"),m("option","13"), m("option","14"),
+								m("option","5"), m("option","6"),
 							]
 						)}
 					</div>

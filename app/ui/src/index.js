@@ -30,7 +30,7 @@ var page = {
 
 						<a href="#" class="dib grow no-underline gray ph3 ">
 							<img class="db" height="40px" src="../../../assets/img/applestore.png"/>
-							<small>**coming Soon**</small>
+							<small>**coming Soon** <span class="blue">click</span></small>
 						</a>
 					</div>
 				</section>

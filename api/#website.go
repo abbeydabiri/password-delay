@@ -129,7 +129,6 @@ func apiWebsiteLogin(httpRes http.ResponseWriter, httpReq *http.Request) {
 						User.Workflow = "blocked"
 						statusMessage = fmt.Sprintf("User account blocked - too many failed logins")
 					}
-				} else {
 					statusMessage = fmt.Sprintf("%v attempts left", User.FailedMax-User.Failed)
 				}
 				User.Create(&User)
