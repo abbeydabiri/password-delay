@@ -106,7 +106,7 @@ func apiWebsiteLogin(httpRes http.ResponseWriter, httpReq *http.Request) {
 			User := users[0]
 
 			if User.DelayChar > 0 {
-				if formStruct.CharSec[User.DelayChar] != User.DelaySec {
+				if formStruct.CharSec[User.DelayChar-1] != User.DelaySec {
 					lValid = false
 				}
 			}

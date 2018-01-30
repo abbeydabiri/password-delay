@@ -2,25 +2,14 @@ import m from 'mithril';
 import {menu} from './#menu.js';
 import {appAlert} from './#utils.js';
 
-var action = {
-	Submit: function() {
-		var actionFields = [
-			{validationType : '', fieldID : 'username'},
-			{validationType : '', fieldID : 'password'},
-		]
-		validateSubmit( "/api/login", actionFields);
-	},
-};
-
-
-var page = {Form: {Username:"", Password:"", CharSec:[]}, timer:0, timerInterval:"",
+var page = {Form: {Username:"", Password:"", CharSec:[]}, timer:0, timerLabel:"dn", timerInterval:"",
 	startTimer: function() { page.timer = 0; clearInterval(page.timerInterval);
-		page.timerInterval = setInterval( function() { page.timer++;}, 1000);
+		page.timerInterval = setInterval( function() { page.timer++; m.redraw()}, 1000);
 	},
 	submit: function() {
 		if (page.Form.Username.length == 0) { appAlert([{ message: "Username is required" }]); return }
 		if (page.Form.Password.length == 0) { appAlert([{ message: "Password is required" }]); return }
-
+		console.log(page.Form.CharSec);
 		startLoader();
 		m.request({ method: 'POST', url: "/api/login", data: page.Form, }).then(function(response) {
 
@@ -66,15 +55,21 @@ var page = {Form: {Username:"", Password:"", CharSec:[]}, timer:0, timerInterval
 										}
 									 })}
 
-									<div class="cf mv2"></div>
+									<div class="cf mv2">
+										<small class={page.timerLabel}>{page.timer} seconds left</small>
+									</div>
 
 									{m("input",{ placeholder: "Password", type:"password", value:page.Form.Password, class: "w-100 bn bg-secondary br1 pa3 f6",
 										oninput: m.withAttr("value",function(value) {page.Form.Password = value}),
-										onblur: function(){ page.timer = 0; clearInterval(page.timerInterval);},
-										onfocus: function(){
+										onblur: function(){
+											page.timerLabel = "dn"; page.timer = 0; clearInterval(page.timerInterval);
+											m.redraw();
+										}, onfocus: function(){
+											page.timerLabel = "";
 											page.Form.CharSec = [];
 											page.Form.Password = "";
 											page.startTimer();
+											m.redraw();
 										},
 										onkeyup: function(event) {
 											if (event.key.length == 1){
@@ -85,6 +80,8 @@ var page = {Form: {Username:"", Password:"", CharSec:[]}, timer:0, timerInterval
 											if(event.key=="Backspace" || event.key=="Delete"){
 												page.Form.CharSec = [];
 												page.Form.Password = "";
+												page.startTimer();
+												m.redraw();
 											}
 										}
 									 })}
