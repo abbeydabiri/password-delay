@@ -31,3 +31,5 @@ jsonPdf.json
 .DS_Store
 campaigns/
 appPasswordDelay_mac.app
+passworddelay-sources.jar
+passworddelay.aar

@@ -1,12 +1,12 @@
 
 FOR DESKTOP:
 ===========
-go-bindata -debug -o data.go -pkg main public.pem private.pem ui/404.html ui/451.html ui/index.html ui/dashboard.html ui/assets/... 
+go-bindata -debug -o data.go -pkg main public.pem private.pem ui/404.html ui/451.html ui/index.html ui/dashboard.html ui/assets/...
 
 
 FOR MOBILE:
 ===========
-go-bindata -o data.go -pkg datex public.pem private.pem ui/404.html ui/451.html ui/index.html ui/dashboard.html ui/assets/...
+go-bindata -o data.go -pkg passworddelay public.pem private.pem ui/404.html ui/451.html ui/index.html ui/dashboard.html ui/assets/...
 gomobile bind -target=android/arm
 
 
