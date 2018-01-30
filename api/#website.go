@@ -90,7 +90,7 @@ func apiWebsiteLogin(httpRes http.ResponseWriter, httpReq *http.Request) {
 	var formStruct struct {
 		Username,
 		Password string
-		CharSec map[uint64]uint64
+		CharSec []uint64
 	}
 
 	statusBody := make(map[string]interface{})
@@ -107,12 +107,12 @@ func apiWebsiteLogin(httpRes http.ResponseWriter, httpReq *http.Request) {
 
 			if User.DelayChar > 0 {
 				if formStruct.CharSec[User.DelayChar] != User.DelaySec {
-					// lValid = false
+					lValid = false
 				}
 			}
 
 			if err := bcrypt.CompareHashAndPassword(User.Password, []byte(formStruct.Password)); err != nil {
-				// lValid = false
+				lValid = false
 			} else {
 				formStruct.Password = ""
 			}
@@ -168,6 +168,8 @@ func apiWebsiteLogin(httpRes http.ResponseWriter, httpReq *http.Request) {
 				//All Seems Clear, Validate User Password and Generate Token
 			}
 		}
+	} else {
+		println(err.Error())
 	}
 
 	bucketHit := buckets.Hits{}

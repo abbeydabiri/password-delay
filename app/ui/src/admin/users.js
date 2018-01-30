@@ -94,7 +94,7 @@ var page = {
 								</div>
 
 								<div class="fl w-50 w-25-l pa2"> <small class="gray b">Password:</small>
-									{m("input",{ type: "email", class: "w-100 pa1", disabled: page.editMode, value:page.Form.Password,
+									{m("input",{ type: "password", class: "w-100 pa1", disabled: page.editMode, value:page.Form.Password,
 										onchange: m.withAttr("value",function(value) {page.Form.Password = value}) })}
 								</div>
 

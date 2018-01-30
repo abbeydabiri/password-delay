@@ -236,23 +236,27 @@ func apiProfilePasswordPost(httpRes http.ResponseWriter, httpReq *http.Request) 
 				bucketUser = bucketUserList[0]
 			}
 
-			bucketUser.DelaySec = formStruct.DelaySec
-			bucketUser.DelayChar = formStruct.DelayChar
-
-			if formStruct.Password != "" && formStruct.NewPassword != "" {
-				passwordHash, errNew := bcrypt.GenerateFromPassword([]byte(formStruct.NewPassword), bcrypt.DefaultCost)
-				if errNew == nil {
-					if errNewP := bcrypt.CompareHashAndPassword(bucketUser.Password,
-						[]byte(formStruct.Password)); errNewP == nil {
-						bucketUser.Password = passwordHash
+			if formStruct.Password != "" {
+				if errNewP := bcrypt.CompareHashAndPassword(bucketUser.Password,
+					[]byte(formStruct.Password)); errNewP == nil {
+					if formStruct.NewPassword != "" {
+						passwordHash, errNew := bcrypt.GenerateFromPassword([]byte(formStruct.NewPassword), bcrypt.DefaultCost)
+						if errNew == nil {
+							bucketUser.Password = passwordHash
+							bucketUser.DelaySec = formStruct.DelaySec
+							bucketUser.DelayChar = formStruct.DelayChar
+						} else {
+							statusMessage += "error occurred while encrypting new password \n"
+						}
 					} else {
-						statusMessage += "Current Password is incorrect \n"
+						bucketUser.DelaySec = formStruct.DelaySec
+						bucketUser.DelayChar = formStruct.DelayChar
 					}
 				} else {
-					statusMessage += "error occurred while encrypting password \n"
+					statusMessage += "Current Password is incorrect \n"
 				}
 			} else {
-				statusMessage += "Current Password and New Password is required \n"
+				statusMessage += "Current Password is required \n"
 				if strings.HasSuffix(statusMessage, "\n") {
 					statusMessage = statusMessage[:len(statusMessage)-2]
 				}

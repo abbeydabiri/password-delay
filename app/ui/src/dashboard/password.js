@@ -18,9 +18,7 @@ import {appAlert} from '../#utils.js';
 var page = {
 	Url: "/api/profile/password", Form: {DelayChar:0,DelaySec:0,Password:"",NewPassword:"",ConfirmPassword:""},
 	saveForm:function(){
-		if (page.Form.Password.length==0) { appAlert([{ message: "Currrent Password is required" }]); return }
-		if (page.Form.NewPassword.length < 3) { appAlert([{ message: "New Password must be at least 4 chars" }]); return }
-		if (page.Form.ConfirmPassword.length < 3) { appAlert([{ message: "Confirm Password must be at least 4 chars" }]); return }
+		if (page.Form.Password == "") { appAlert([{ message: "Currrent Password is required" }]); return }
 		if (page.Form.NewPassword !== page.Form.ConfirmPassword) { appAlert([{ message: "New and Confirm Passwords do not match" }]); return }
 		saveForm(page);
 	},
