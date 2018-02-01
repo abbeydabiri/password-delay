@@ -25,7 +25,7 @@
 // ui/assets/manifest.json
 // DO NOT EDIT!
 
-package passworddelay
+package main
 
 import (
 	"bytes"

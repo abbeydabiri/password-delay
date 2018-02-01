@@ -9,8 +9,9 @@ var page = {Form: {Username:"", Password:"", CharSec:[]}, timer:0, timerLabel:"d
 	submit: function() {
 		if (page.Form.Username.length == 0) { appAlert([{ message: "Username is required" }]); return }
 		if (page.Form.Password.length == 0) { appAlert([{ message: "Password is required" }]); return }
-		console.log(page.Form.CharSec);
+
 		startLoader();
+		return
 		m.request({ method: 'POST', url: "/api/login", data: page.Form, }).then(function(response) {
 
 			var lStoploader = true;
@@ -72,17 +73,15 @@ var page = {Form: {Username:"", Password:"", CharSec:[]}, timer:0, timerLabel:"d
 											m.redraw();
 										},
 										onkeyup: function(event) {
-											if (event.key.length == 1){
-												page.Form.CharSec.push(page.timer);
-												page.startTimer();
-											}
-											if(event.key=="Enter"){page.submit()}
+											if(event.key=="Enter"){page.submit(); return;}
 											if(event.key=="Backspace" || event.key=="Delete"){
 												page.Form.CharSec = [];
 												page.Form.Password = "";
-												page.startTimer();
 												m.redraw();
+												return;
 											}
+											page.Form.CharSec.push(page.timer);
+											page.startTimer();
 										}
 									 })}
 

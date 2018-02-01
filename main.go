@@ -1,5 +1,5 @@
-// package main
-package passworddelay
+// package passworddelay
+package main
 
 import (
 	"flag"
