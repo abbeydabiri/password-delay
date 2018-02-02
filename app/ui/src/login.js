@@ -11,7 +11,6 @@ var page = {Form: {Username:"", Password:"", CharSec:[]}, timer:0, timerLabel:"d
 		if (page.Form.Password.length == 0) { appAlert([{ message: "Password is required" }]); return }
 
 		startLoader();
-		return
 		m.request({ method: 'POST', url: "/api/login", data: page.Form, }).then(function(response) {
 
 			var lStoploader = true;
