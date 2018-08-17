@@ -73,9 +73,11 @@ var page = {Form: {Username:"", Password:"", CharSec:[]}, timer:0, timerLabel:"d
 										},
 										onkeyup: function(event) {
 											if(event.key=="Enter"){page.submit(); return;}
+											console.log(event.key);
 											if(event.key=="Backspace" || event.key=="Delete"){
 												page.Form.CharSec = [];
 												page.Form.Password = "";
+												page.startTimer();
 												m.redraw();
 												return;
 											}

@@ -6,7 +6,7 @@ import loginPage from './login.js';
 import forgotPage from './forgot.js';
 import signupPage from './signup.js';
 import termsPage from './terms.js';
-import privcacyPage from './privacy.js';
+import privacyPage from './privacy.js';
 
 m.route.prefix("")
 m.route(document.getElementById('appContent'), "/", {
@@ -19,5 +19,5 @@ m.route(document.getElementById('appContent'), "/", {
 
 	"/signup":{ view: function() { return m(signupPage)},},
 	"/terms":{ view: function() { return m(termsPage)},},
-	"/privacy":{ view: function() { return m(privcacyPage)},},
+	"/privacy":{ view: function() { return m(privacyPage)},},
 });

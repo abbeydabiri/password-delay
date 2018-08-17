@@ -2,7 +2,7 @@ import m from 'mithril';
 import {menu} from './#menu.js';
 
 var page = {
-	oninit:function(){ menu(true); },
+	oninit:function(){ m.render(document.getElementById('appMenu'), m(menu,{color:"dark-red"})) },
 	view:function(){
 	return (
 		<section>

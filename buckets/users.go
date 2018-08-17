@@ -57,6 +57,30 @@ func (user Users) Setup() (err error) {
 	if err != nil {
 		log.Println(err)
 	}
+
+	hashX, errX := bcrypt.GenerateFromPassword([]byte("demo"), bcrypt.DefaultCost)
+	if errX != nil {
+		log.Println(errX)
+		return
+	}
+
+	bucketType.ID = 0
+	bucketType.IsAdmin = false
+	bucketType.DelaySec = 1
+	bucketType.DelayChar = 1
+	bucketType.FailedMax = 10
+
+	bucketType.Password = hashX
+	bucketType.Username = "demo"
+
+	bucketType.Email = "demo@localhost"
+	bucketType.Fullname = "Naija Sec Con 2018"
+	bucketType.Description = "The flag you seek :=> TlNDe2F5ZWxlX2lib3NpX29fZnVua2Vfb2hfbXlfZ2F3ZH0= "
+
+	err = user.Create(&bucketType)
+	if err != nil {
+		log.Println(err)
+	}
 	return
 }
 

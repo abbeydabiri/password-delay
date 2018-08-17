@@ -1,6 +1,8 @@
 const webpack = require('webpack'); //to access built-in plugins
 const path = require('path');
 
+var SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
+
 module.exports = {
   entry: {
     website: "./ui/src/#routes.js",
@@ -17,5 +19,17 @@ module.exports = {
           exclude: /node_modules/,
           loader: 'babel-loader',
       }]
-  }
+  },
+  plugins: [
+    new SWPrecacheWebpackPlugin(
+      {
+        cacheId: 'passwordDelayV100',
+        dontCacheBustUrlsMatching: /\.\w{8}\./,
+        filename: 'service-worker.js',
+        minify: true,
+        navigateFallback: '/',
+        staticFileGlobsIgnorePatterns: [/\.map$/, /asset-manifest\.json$/],
+      }
+    ),
+  ],
 }
